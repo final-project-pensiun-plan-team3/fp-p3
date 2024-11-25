@@ -9,23 +9,43 @@ export async function GET() {
 		}
 
 		const savings = await Saving.getData(UserId);
-		return new Response(JSON.stringify(savings), { status: 200 });
+		return Response.json(savings);
 	} catch (error) {
 		return handleError(error);
 	}
 }
 
-export async function PUT(req: Request) {
+export async function POST(req: Request) {
 	try {
-		const { userId, updatedData } = await req.json();
+		const { UserId, amountSaved } = await req.json();
 
-		if (!userId || !updatedData) {
-			throw new HttpError("User ID and updated data are required", 400);
+		if (!UserId || !amountSaved) {
+			throw new HttpError("User ID and amountSaved are required", 400);
 		}
 
-		const updatedSaving = await Saving.update(userId, updatedData);
-		return new Response(JSON.stringify(updatedSaving), { status: 200 });
+		const newSaving = await Saving.create({
+			UserId,
+			amountSaved,
+			createdAt: new Date(),
+		});
+
+		return new Response(JSON.stringify(newSaving), { status: 201 });
 	} catch (error) {
 		return handleError(error);
 	}
 }
+
+// export async function PUT(req: Request) {
+// 	try {
+// 		const { UserId, updatedData } = await req.json();
+
+// 		if (!UserId || !updatedData) {
+// 			throw new HttpError("User ID and updated data are required", 400);
+// 		}
+
+// 		const updatedSaving = await Saving.update(UserId, updatedData);
+// 		return new Response(JSON.stringify(updatedSaving), { status: 200 });
+// 	} catch (error) {
+// 		return handleError(error);
+// 	}
+// }
