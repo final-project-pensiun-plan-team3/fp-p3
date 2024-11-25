@@ -1,14 +1,15 @@
-"use client"
+"use client";
 
-import Navbar from '@/components/Navbar';
-import { useState } from 'react';
+import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
+import { useState } from "react";
 
 export default function Home() {
   const [formData, setFormData] = useState({
-    income: '',
-    percentage: '',
-    age: '',
-    retirementAge: ''
+    income: "",
+    percentage: "",
+    age: "",
+    retirementAge: "",
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -17,19 +18,19 @@ export default function Home() {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form Submitted:', formData);
+    console.log("Form Submitted:", formData);
     setIsSubmitted(true);
   };
 
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       {/* Main 1 */}
       <div
         className="bg-cover bg-center h-screen"
@@ -39,10 +40,15 @@ export default function Home() {
           <div className="text-center text-white px-4">
             <h1 className="text-5xl font-bold mb-6">HELLO THERE</h1>
             <p className="text-lg mb-6">
-              Plan for your future with our PensiunPlan. Fill in your income, percentage of savings, and age to get started.
+              Plan for your future with our PensiunPlan. Fill in your income,
+              percentage of savings, and age to get started.
             </p>
             <button
-              onClick={() => document.getElementById('retirement-form').scrollIntoView({ behavior: 'smooth' })}
+              onClick={() =>
+                document
+                  .getElementById("retirement-form")
+                  .scrollIntoView({ behavior: "smooth" })
+              }
               className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700"
             >
               Get Started
@@ -52,9 +58,14 @@ export default function Home() {
       </div>
 
       {/* Main 2 (Form) */}
-      <div id="retirement-form" className="h-screen bg-gray-100 flex items-center justify-center">
+      <div
+        id="retirement-form"
+        className="h-screen bg-gray-100 flex items-center justify-center"
+      >
         <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
-          <h2 className="text-3xl font-bold text-center text-gray-700 mb-6">Retirement Plan Form</h2>
+          <h2 className="text-3xl font-bold text-center text-gray-700 mb-6">
+            Retirement Plan Form
+          </h2>
 
           {isSubmitted && (
             <div className="text-center text-green-500 mb-6">
@@ -64,7 +75,12 @@ export default function Home() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="income" className="block text-sm font-medium text-gray-600">Annual Income</label>
+              <label
+                htmlFor="income"
+                className="block text-sm font-medium text-gray-600"
+              >
+                Annual Income
+              </label>
               <input
                 type="number"
                 id="income"
@@ -78,7 +94,12 @@ export default function Home() {
             </div>
 
             <div>
-              <label htmlFor="percentage" className="block text-sm font-medium text-gray-600">Percentage of Income to Save (%)</label>
+              <label
+                htmlFor="percentage"
+                className="block text-sm font-medium text-gray-600"
+              >
+                Percentage of Income to Save (%)
+              </label>
               <input
                 type="number"
                 id="percentage"
@@ -92,7 +113,12 @@ export default function Home() {
             </div>
 
             <div>
-              <label htmlFor="age" className="block text-sm font-medium text-gray-600">Current Age</label>
+              <label
+                htmlFor="age"
+                className="block text-sm font-medium text-gray-600"
+              >
+                Current Age
+              </label>
               <input
                 type="number"
                 id="age"
@@ -106,7 +132,12 @@ export default function Home() {
             </div>
 
             <div>
-              <label htmlFor="retirementAge" className="block text-sm font-medium text-gray-600">Retirement Age</label>
+              <label
+                htmlFor="retirementAge"
+                className="block text-sm font-medium text-gray-600"
+              >
+                Retirement Age
+              </label>
               <input
                 type="number"
                 id="retirementAge"
@@ -130,6 +161,7 @@ export default function Home() {
           </form>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
