@@ -2,6 +2,7 @@ import { ObjectId } from "mongodb";
 
 export type RetirementPlanType = {
   UserId: ObjectId;
+  currentAge: number;
   targetAge: number;
   targetSavings: number;
   monthlySaving: number;
