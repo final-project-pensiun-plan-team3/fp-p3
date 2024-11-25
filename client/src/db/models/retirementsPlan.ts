@@ -6,16 +6,18 @@ export class RetirementPlan {
   static db = database.collection("RetirementPlans");
 
   static async Create({ insertedData }: { insertedData: RetirementPlanType }) {
+    // console.log("🚀 ~ RetirementPlan ~ Create ~ insertedData:", insertedData)
     await this.db.insertOne(insertedData);
   }
 
-  static async getData() {
-    const UserId = new ObjectId("6744362e16f24b8ddf424622");
+  static async getData(UserId:string) {
     if (!UserId) {
       throw new HttpError("User Id is required", 401);
     }
 
-    const data = await this.db.find(UserId);
+    const data = await this.db.findOne({UserId:new ObjectId(UserId)});
+    // console.log("🚀 ~ RetirementPlan ~ getData ~ data:", data)
+    
     return data;
   }
 }
