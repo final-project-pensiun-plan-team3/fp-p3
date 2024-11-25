@@ -16,7 +16,7 @@ export class RetirementPlan {
     }
 
     const data = await this.db.findOne({UserId:new ObjectId(UserId)});
-    console.log("🚀 ~ RetirementPlan ~ getData ~ data:", data)
+    // console.log("🚀 ~ RetirementPlan ~ getData ~ data:", data)
     
     return data;
   }

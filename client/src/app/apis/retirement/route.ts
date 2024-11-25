@@ -28,7 +28,7 @@ export async function POST(request:NextRequest) {
 
      return Response.json({ message: "Added to wish list successfully" });
   } catch (error) {
-    console.log("🚀 ~ POST ~ error:", error)
+    // console.log("🚀 ~ POST ~ error:", error)
     return handleError(error);
   }
 }
