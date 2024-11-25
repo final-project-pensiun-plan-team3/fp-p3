@@ -5,8 +5,9 @@ import { NextRequest } from "next/server";
 
 export async function GET() {
   try {
-    const plan = await RetirementPlan.getData();
-    return plan;
+    const UserId = "6744362e16f24b8ddf424622"
+    const plan = await RetirementPlan.getData(UserId);
+    return Response.json(plan);
   } catch (error) {
     return handleError(error)
   }
@@ -23,9 +24,11 @@ export async function POST(request:NextRequest) {
       updatedAt:new Date()
     };
 
-    await RetirementPlan.Create(insertedData);
+    await RetirementPlan.Create({insertedData});
+
      return Response.json({ message: "Added to wish list successfully" });
   } catch (error) {
+    console.log("🚀 ~ POST ~ error:", error)
     return handleError(error);
   }
 }
