@@ -1,15 +1,37 @@
-import { HttpError } from "@/lib/errorhandler";
 import { database } from "../config";
 import { ObjectId } from "mongodb";
 
 export class Saving {
 	static db = database.collection("Savings");
 
-	static async getData() {
-		const UserId = new ObjectId("6744362e16f24b8ddf424622");
-		if (!UserId) {
-			throw new HttpError("User Id is required", 401);
+	static async getData(userId: string) {
+		if (!ObjectId.isValid(userId)) {
+			throw new Error("Invalid User ID format");
 		}
-		return await this.db.find({ UserId }).toArray();
+		const objectId = new ObjectId(userId);
+		return await this.db.find({ userId: objectId }).toArray();
+	}
+
+	static async create(data: {
+		userId: string;
+		amountSaved: number;
+		createdAt: Date;
+	}) {
+		if (!ObjectId.isValid(data.userId)) {
+			throw new Error("Invalid User ID format");
+		}
+		const objectId = new ObjectId(data.userId);
+		return await this.db.insertOne({ ...data, userId: objectId });
+	}
+
+	static async update(
+		userId: string,
+		updatedData: Partial<{ amountSaved: number }>
+	) {
+		if (!ObjectId.isValid(userId)) {
+			throw new Error("Invalid User ID format");
+		}
+		const objectId = new ObjectId(userId);
+		return await this.db.updateOne({ userId: objectId }, { $set: updatedData });
 	}
 }
