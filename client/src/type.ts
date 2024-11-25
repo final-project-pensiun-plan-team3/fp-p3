@@ -11,3 +11,10 @@ export type RetirementPlanType = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+export type SavingType = {
+  UserId: ObjectId;
+  amountSaved: number;
+  createdAt: Date;
+  updatedAt: Date;
+};
