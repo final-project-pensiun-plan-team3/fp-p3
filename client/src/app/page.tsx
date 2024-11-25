@@ -3,13 +3,12 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
-
 export default function Home() {
   return (
     <div>
       <div
         className="bg-cover bg-center h-screen"
-        style={{ backgroundImage: "url('https://placehold.co/1920x1080')" }}
+        style={{ backgroundImage: "url('/images/HomeBase.jpg')" }}
       >
         <Navbar />
         <div className="flex items-center justify-center h-full bg-black bg-opacity-50">
@@ -21,7 +20,7 @@ export default function Home() {
             </p>
             <Link
               href={"/onboarding"}
-              className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700"
+              className="bg-secondary text-white font-bold py-2 px-4 rounded hover:bg-blue-700 border-e-base-100 transition-all ease-[cubic-bezier(0.68,-0.55,0.27,1.55)] duration-300"
             >
               Get Started
             </Link>
