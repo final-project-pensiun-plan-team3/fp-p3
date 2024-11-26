@@ -11,7 +11,7 @@ export default function Navbar() {
   };
 
   return (
-    <div className="navbar sticky top-0">
+    <div className="navbar">
       <img
         src="images/PensiunPlan.png"
         alt="PensiunPlan"
@@ -21,7 +21,7 @@ export default function Navbar() {
         <Link href="/" className="btn btn-ghost text-xl">
           Home
         </Link>
-        <Link href="/insert" className="btn btn-ghost text-xl">
+        <Link href="/dashboard" className="btn btn-ghost text-xl">
           Dashboard
         </Link>
       </div>
