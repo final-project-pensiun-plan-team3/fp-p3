@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "@types/nodemailer": "^6.4.17",
     "axios": "^1.7.7",
     "daisyui": "^4.12.14",
     "googleapis": "^144.0.0",
