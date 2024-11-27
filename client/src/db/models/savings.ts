@@ -10,7 +10,7 @@ export class Saving {
 		}
 		const objectId = new ObjectId(userId);
         // console.log(objectId);
-		return await this.db.find({ UserId: objectId }).toArray();
+		return await this.db.find({ UserId: objectId }).sort("createdAt",-1).toArray();
 	}
 
 	static async create(data: {

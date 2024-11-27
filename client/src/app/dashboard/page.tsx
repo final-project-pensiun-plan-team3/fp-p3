@@ -5,9 +5,8 @@ import {
   ArrowDownCircleIcon,
   ArrowPathIcon,
   ArrowUpCircleIcon,
-  PlusSmallIcon,
 } from "@heroicons/react/20/solid";
-import { BellIcon, CurrencyDollarIcon } from "@heroicons/react/24/outline";
+import { CurrencyDollarIcon } from "@heroicons/react/24/outline";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { RetirementPlan } from "@/db/models/retirementsPlan";
@@ -140,7 +139,7 @@ export default function Dashboard() {
     };
     getRetirement();
   }, []);
-
+  
   useEffect(() => {
     const getSaving = async () => {
       setLoadingSaving(false);
@@ -165,7 +164,7 @@ export default function Dashboard() {
   return (
     <>
       <Navbar />
-      <main>
+      <main className="container mx-auto">
         <div className="relative isolate overflow-hidden pt-16">
           {/* Secondary navigation */}
           <header className="pb-4 pt-6 sm:pb-6">
