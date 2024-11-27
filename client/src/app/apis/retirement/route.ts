@@ -38,3 +38,17 @@ export async function POST(request:NextRequest) {
     return handleError(error);
   }
 }
+
+export async function PUT(request: NextRequest) {
+  try {
+     const {additionalSaving} = await request.json();
+     const UserId = "6744362e16f24b8ddf424622";
+
+    const plan = await RetirementPlan.updateSavings(additionalSaving, UserId);
+
+    return Response.json(plan);
+  } catch (error) {
+    // console.log("🚀 ~ PUT ~ error:", error)
+    return handleError(error);
+  }
+}
