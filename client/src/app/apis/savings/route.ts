@@ -1,4 +1,5 @@
 import { Saving } from "@/db/models/savings";
+import { indonesianDate } from "@/helpers/IndonesianDate";
 import { handleError, HttpError } from "@/lib/errorhandler";
 
 export async function GET() {
@@ -27,7 +28,7 @@ export async function POST(req: Request) {
     const newSaving = await Saving.create({
       UserId,
       amountSaved,
-      createdAt: new Date(),
+      createdAt: indonesianDate(),
     });
 
     return new Response(JSON.stringify(newSaving), { status: 201 });
