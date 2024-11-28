@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     const ticket = await client.verifyIdToken({
       idToken: token as string,
       audience:
-        "645521973109-l33lea84qvfvdo4n5pouji0i0r8m5bsm.apps.googleusercontent.com", // Specify the CLIENT_ID of the app that accesses the backend
+        "104217290771-gi9n0eaqmi6gvki8inc9h4fjc1hj4509.apps.googleusercontent.com", // Specify the CLIENT_ID of the app that accesses the backend
       // Or, if multiple clients access the backend:
       //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
     });

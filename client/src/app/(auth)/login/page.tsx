@@ -28,7 +28,7 @@ export default function Page() {
     const buttonDiv = document.getElementById("buttonDiv") as HTMLElement; // Type assertion
     google.accounts.id.initialize({
       client_id:
-        "645521973109-l33lea84qvfvdo4n5pouji0i0r8m5bsm.apps.googleusercontent.com",
+        "104217290771-gi9n0eaqmi6gvki8inc9h4fjc1hj4509.apps.googleusercontent.com",
       callback: handleCredentialResponse,
     });
     google.accounts.id.renderButton(buttonDiv, {
