@@ -176,11 +176,11 @@ export default function Dashboard() {
                     Total Saving
                   </div>
                 </div>
-                <div className="px-6 py-4 text-sm/6">
+                <div className="px-6 py-4 text-sm/6 flex justify-center content-center">
                   {loadingSaving ? (
                     <div className="loading loading-dots loading-md text-primary"></div>
                   ) : (
-                    <span>{Rp(dataSaving.amountSaved)}</span>
+                    <span className="font-semibold">{Rp(dataSaving.amountSaved)}</span>
                   )}
                 </div>
               </div>
@@ -212,11 +212,11 @@ export default function Dashboard() {
                     Target Saving
                   </div>
                 </div>
-                <div className="px-6 py-4 text-sm/6">
-                  {loadingRetirement ? (
+                <div className="px-6 py-4 text-sm/6 flex justify-center content-center">
+                  {loadingSaving ? (
                     <div className="loading loading-dots loading-md text-primary"></div>
                   ) : (
-                    <span>{Rp(dataRetirementPlan.targetSavings)}</span>
+                    <span className="font-semibold">{Rp(dataRetirementPlan.targetSavings)}</span>
                   )}
                 </div>
               </div>
