@@ -24,7 +24,7 @@ export default function Navbar() {
         <Link href="/" className="btn btn-ghost text-xl">
           Home
         </Link>
-        <Link href="/dashboard" className="btn btn-ghost text-xl">
+        <Link href="/dashboard" className="btn btn-ghost text-xl p-0">
           Dashboard
         </Link>
       </div>
