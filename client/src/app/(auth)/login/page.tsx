@@ -1,6 +1,38 @@
+"use client";
 import Footer from "@/components/Footer";
+import { useEffect } from "react";
+import { redirect } from "next/navigation";
+import axios from "axios";
 
 export default function Page() {
+  async function handleCredentialResponse(response: any) {
+    console.log("Encoded JWT ID token: " + response.credential);
+
+    const res = await axios.post("http://localhost:3000/apis/login", null, {
+      headers: {
+        token: response.credential,
+      },
+    });
+
+    redirect("/");
+  }
+
+  useEffect(() => {
+    console.log(process.env.GOOGLE_CLIENT_ID, "<<<<<");
+    const buttonDiv = document.getElementById("buttonDiv") as HTMLElement; // Type assertion
+    google.accounts.id.initialize({
+      client_id:
+        "645521973109-l33lea84qvfvdo4n5pouji0i0r8m5bsm.apps.googleusercontent.com",
+      callback: handleCredentialResponse,
+    });
+    google.accounts.id.renderButton(buttonDiv, {
+      theme: "outline",
+      size: "large", // customization attributes
+      type: "standard",
+    });
+    google.accounts.id.prompt(); // also display the One Tap dialog
+  }, []);
+
   return (
     <div>
       <div className="flex items-center justify-between max-w-7xl mx-auto px-4 sm:px-8 h-16">
@@ -46,6 +78,7 @@ export default function Page() {
                 </svg>
                 <span className="text-sm/6 font-semibold">Google</span>
               </button>
+              <div id="buttonDiv"></div>
             </div>
           </div>
         </div>
