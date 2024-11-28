@@ -25,6 +25,8 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       accessToken: "token",
+      name: payload?.name,
+      picture: payload?.picture,
     });
   } catch (error) {
     return console.log(error);
