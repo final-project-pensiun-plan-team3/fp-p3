@@ -139,7 +139,7 @@ export default function Dashboard() {
     };
     getRetirement();
   }, []);
-  
+
   useEffect(() => {
     const getSaving = async () => {
       setLoadingSaving(false);
@@ -164,7 +164,7 @@ export default function Dashboard() {
   return (
     <>
       <Navbar />
-      <main className="container mx-auto">
+      <main className="max-w-[1100px] mx-auto">
         <div className="relative isolate overflow-hidden pt-16">
           {/* Secondary navigation */}
           <header className="pb-4 pt-6 sm:pb-6">
@@ -184,6 +184,27 @@ export default function Dashboard() {
                   )}
                 </div>
               </div>
+              <div>
+                <div className="flex justify-center items-center py-6">
+                  {/* Radial Progress Bar */}
+                  <div
+                    className="radial-progress text-blue-500"
+                    style={{
+                      "--value": 70, // Dynamic progress value
+                      "--size": "12rem", // Size of the progress bar
+                      "--thickness": "5px", // Thickness of the progress ring
+                    }}
+                    role="progressbar"
+                    aria-valuenow="70" // Accessibility
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  >
+                    <span className="text-2xl font-bold text-gray-800 animate-pulse">
+                      70%
+                    </span>
+                  </div>
+                </div>
+              </div>
               <div className="overflow-hidden rounded-xl border border-gray-200">
                 <div className="flex items-center gap-x-4 border-b border-gray-900/5 bg-gray-50 p-6">
                   <CurrencyDollarIcon className="size-6" />
@@ -200,6 +221,14 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
+            {/* <div className=" flex justify-center content-center mt-6">
+              <progress
+                className="progress progress-info"
+                value="900000"
+                max="1000000"
+              ></progress>
+              <p>{(1000000 / 900000).toFixed(2)}</p>
+            </div> */}
           </header>
 
           {/* Stats */}
