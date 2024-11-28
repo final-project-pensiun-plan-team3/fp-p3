@@ -9,8 +9,11 @@ export class Saving {
 			throw new Error("Invalid User ID format");
 		}
 		const objectId = new ObjectId(userId);
-        // console.log(objectId);
-		return await this.db.find({ UserId: objectId }).sort("createdAt",-1).toArray();
+		// console.log(objectId);
+		return await this.db
+			.find({ UserId: objectId })
+			.sort("createdAt", -1)
+			.toArray();
 	}
 
 	static async create(data: {
@@ -23,6 +26,18 @@ export class Saving {
 		}
 		const objectId = new ObjectId(data.UserId);
 		return await this.db.insertOne({ ...data, UserId: objectId });
+	}
+
+	static async getlatest(userId: string) {
+		if (!ObjectId.isValid(userId)) {
+			throw new Error("Invalid User ID format");
+		}
+		const objectId = new ObjectId(userId);
+		return await this.db
+			.find({ UserId: objectId })
+			.sort("createdAt", -1)
+			.limit(1)
+			.toArray();
 	}
 
 	// static async update(
