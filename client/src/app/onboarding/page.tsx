@@ -2,16 +2,20 @@
 
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import { RetirementAge } from "@/helpers/RetirementAge";
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 export default function Onboarding() {
   const [formData, setFormData] = useState({
-    income: "",
-    percentage: "",
-    age: "",
-    retirementAge: "",
+    currentAge: "",           // Untuk usia saat ini
+    monthlySaving: "",       // Untuk tabungan bulanan
+    monthlySpending: "",     // Untuk pengeluaran bulanan
+    inflationRate: "",       // Untuk persentase inflasi tahunan
+    investationRate: "",     // Untuk persentase return investasi
   });
 
+  const [retirementAge, setRetirementAge] = useState<number | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,82 +24,63 @@ export default function Onboarding() {
       ...formData,
       [name]: value,
     });
+    
+    // Kalkulasi usia pensiun setiap kali input berubah
+    const { currentAge, monthlySaving, monthlySpending, inflationRate, investationRate } = formData;
+
+    if (currentAge && monthlySaving && monthlySpending && inflationRate ) {
+      const result = RetirementAge(
+        parseInt(currentAge),
+        parseInt(monthlySaving),
+        parseInt(monthlySpending),
+        parseFloat(inflationRate),
+        parseFloat(investationRate)
+      );
+      setRetirementAge(result);
+    }
   };
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    console.log("Form Submitted:", formData);
-    setIsSubmitted(true);
+    if(retirementAge < 0) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Retirement is not possible because your monthly spending is greater than your monthly saving.",
+      });} else {
+        console.log("Form Submitted:", formData);
+        setIsSubmitted(true);
+      }
+      
+   
   };
+
   return (
     <div>
       <Navbar />
-      <div
-        id="retirement-form"
-        className="h-screen bg-gray-100 flex items-center justify-center"
-      >
+      <div id="retirement-form" className="h-screen bg-gray-100 flex items-center justify-center">
         <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
           <h2 className="text-3xl font-bold text-center text-gray-700 mb-6">
             Retirement Plan Form
           </h2>
 
-          {isSubmitted && (
+          {isSubmitted && retirementAge !== null && (
             <div className="text-center text-green-500 mb-6">
-              <p>Thank you for submitting your retirement plan details!</p>
+              <p>Your retirement age will be: {retirementAge}</p>
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Form Field for Current Age */}
             <div>
-              <label
-                htmlFor="income"
-                className="block text-sm font-medium text-gray-600"
-              >
-                Annual Income
-              </label>
-              <input
-                type="number"
-                id="income"
-                name="income"
-                value={formData.income}
-                onChange={handleChange}
-                required
-                placeholder="Enter your annual income"
-                className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="percentage"
-                className="block text-sm font-medium text-gray-600"
-              >
-                Percentage of Income to Save (%)
-              </label>
-              <input
-                type="number"
-                id="percentage"
-                name="percentage"
-                value={formData.percentage}
-                onChange={handleChange}
-                required
-                placeholder="Enter the percentage of income to save"
-                className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="age"
-                className="block text-sm font-medium text-gray-600"
-              >
+              <label htmlFor="currentAge" className="block text-sm font-medium text-gray-600">
                 Current Age
               </label>
               <input
                 type="number"
-                id="age"
-                name="age"
-                value={formData.age}
+                id="currentAge"
+                name="currentAge"
+                value={formData.currentAge}
                 onChange={handleChange}
                 required
                 placeholder="Enter your current age"
@@ -103,22 +88,86 @@ export default function Onboarding() {
               />
             </div>
 
+            {/* Form Field for Monthly Saving */}
             <div>
-              <label
-                htmlFor="retirementAge"
-                className="block text-sm font-medium text-gray-600"
-              >
+              <label htmlFor="monthlySaving" className="block text-sm font-medium text-gray-600">
+                Monthly Saving (Rp)
+              </label>
+              <input
+                type="number"
+                id="monthlySaving"
+                name="monthlySaving"
+                value={formData.monthlySaving}
+                onChange={handleChange}
+                required
+                placeholder="Enter your monthly saving"
+                className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            {/* Form Field for Monthly Spending */}
+            <div>
+              <label htmlFor="monthlySpending" className="block text-sm font-medium text-gray-600">
+                Monthly Spending (Rp)
+              </label>
+              <input
+                type="number"
+                id="monthlySpending"
+                name="monthlySpending"
+                value={formData.monthlySpending}
+                onChange={handleChange}
+                required
+                placeholder="Enter your monthly spending"
+                className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            {/* Form Field for Inflation Rate */}
+            <div>
+              <label htmlFor="inflationRate" className="block text-sm font-medium text-gray-600">
+                Inflation Rate (%)
+              </label>
+              <input
+                type="number"
+                id="inflationRate"
+                name="inflationRate"
+                value={formData.inflationRate}
+                onChange={handleChange}
+                required
+                placeholder="Enter annual inflation rate"
+                className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            {/* Form Field for Investment Rate */}
+            <div>
+              <label htmlFor="investationRate" className="block text-sm font-medium text-gray-600">
+                Investment Rate (%)
+              </label>
+              <input
+                type="number"
+                id="investationRate"
+                name="investationRate"
+                value={formData.investationRate}
+                onChange={handleChange}
+                required
+                placeholder="Enter annual investment return rate"
+                className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            {/* Form Field for Retirement Age */}
+            <div>
+              <label htmlFor="retirementAge" className="block text-sm font-medium text-gray-600">
                 Retirement Age
               </label>
               <input
                 type="number"
                 id="retirementAge"
                 name="retirementAge"
-                value={formData.retirementAge}
-                onChange={handleChange}
-                required
-                placeholder="Enter your expected retirement age"
-                className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={retirementAge || ""}
+                readOnly
+                className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-100"
               />
             </div>
 
