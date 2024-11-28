@@ -1,10 +1,13 @@
 "use client";
 import Footer from "@/components/Footer";
 import { useEffect } from "react";
-import { redirect } from "next/navigation";
+// import { redirect } from "next/navigation";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import cookies from "js-cookie";
 
 export default function Page() {
+  const router = useRouter();
   async function handleCredentialResponse(response: any) {
     console.log("Encoded JWT ID token: " + response.credential);
 
@@ -13,8 +16,11 @@ export default function Page() {
         token: response.credential,
       },
     });
+    const data = res.data;
+    cookies.set("username", data.name, { expires: 90 });
+    cookies.set("avatar", data.picture, { expires: 90 });
 
-    redirect("/");
+    router.replace("/");
   }
 
   useEffect(() => {
