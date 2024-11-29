@@ -146,12 +146,12 @@ export default function Dashboard() {
                   <div
                     className="radial-progress text-blue-500"
                     style={{
-                      "--value": percentSaving, // Dynamic progress value
-                      "--size": "12rem", // Size of the progress bar
-                      "--thickness": "5px", // Thickness of the progress ring
+                      "--value": percentSaving,
+                      "--size": "12rem", 
+                      "--thickness": "5px", 
                     }}
                     role="progressbar"
-                    aria-valuenow="70" // Accessibility
+                    aria-valuenow="70"
                     aria-valuemin="0"
                     aria-valuemax="100"
                   >

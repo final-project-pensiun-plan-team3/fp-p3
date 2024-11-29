@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { RetirementAge } from "@/helpers/RetirementAge";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 
@@ -24,27 +24,44 @@ export default function Onboarding() {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: +value,
+      [name]: value,
     });
 
-    const { currentAge, monthlySaving, monthlySpending, inflationRate, investationRate } = formData;
+    // const { currentAge, monthlySaving, monthlySpending, inflationRate, investationRate } = formData;
 
-    if (currentAge && monthlySaving && monthlySpending && inflationRate) {
-      const result = RetirementAge(
-        parseInt(currentAge),
-        parseInt(monthlySaving),
-        parseInt(monthlySpending),
-        parseInt(inflationRate),
-        parseInt(investationRate)
-      );
-      setRetirementAge(result);
-    }
+    // if (currentAge && monthlySaving && monthlySpending && inflationRate) {
+    //   const result = RetirementAge(
+    //     parseInt(currentAge),
+    //     parseInt(monthlySaving),
+    //     parseInt(monthlySpending),
+    //     parseInt(inflationRate),
+    //     parseInt(investationRate)
+    //   );
+    //   setRetirementAge(result);
+    // }
   };
 
+  useEffect(() => {
+    const {
+      currentAge,
+      monthlySaving,
+      monthlySpending,
+      inflationRate,
+      investationRate,
+    } = formData;
+    const result = RetirementAge(
+      parseInt(currentAge),
+      parseInt(monthlySaving),
+      parseInt(monthlySpending),
+      parseInt(inflationRate),
+      parseInt(investationRate)
+    );
+    setRetirementAge(result);
+  }, [formData]);
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-    if (retirementAge !== null && retirementAge < 0) {
+    if (retirementAge !== null && retirementAge <= 0) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -64,6 +81,7 @@ export default function Onboarding() {
       }
     }
   };
+
 
   return (
     <div>
