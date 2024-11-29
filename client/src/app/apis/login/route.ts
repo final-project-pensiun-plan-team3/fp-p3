@@ -12,8 +12,8 @@ export async function POST(request: Request) {
     const client = new OAuth2Client();
     const ticket = await client.verifyIdToken({
       idToken: token as string,
-      audience:
-        "104217290771-gi9n0eaqmi6gvki8inc9h4fjc1hj4509.apps.googleusercontent.com", // Specify the CLIENT_ID of the app that accesses the backend
+      audience: process.env.GOOGLE_CLIENT_ID,
+      // Specify the CLIENT_ID of the app that accesses the backend
       // Or, if multiple clients access the backend:
       //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
     });

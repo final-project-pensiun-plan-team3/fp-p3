@@ -32,12 +32,14 @@ export async function middleware(request: NextRequest) {
         token,
         secret
       );
-      console.log("Token payload:", payload);
+      // console.log("Token payload:", payload);
 
       // Pass UserId to request headers for downstream use
-      const requestHeaders = new Headers(request.headers);
+     const requestHeaders = new Headers(request.headers);
       requestHeaders.set("x-UserId", payload.UserId);
+      // console.log("Custom x-UserId header:", request.headers.get("x-UserId"))
 
+      // Return NextResponse with modified headers
       return NextResponse.next({
         request: { headers: requestHeaders },
       });
@@ -52,5 +54,11 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/onboarding", "/apis/retirement", "/dashboard", "/login"],
+  matcher: [
+    "/onboarding",
+    "/apis/retirement",
+    "/dashboard",
+    "/login",
+    "/apis/savings/:path*",
+  ],
 };

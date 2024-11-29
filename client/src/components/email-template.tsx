@@ -8,7 +8,7 @@ export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
 	firstName,
 }) => (
 	<div>
-		<h2>Hello, ${firstName}!</h2>
+		<h2>Hello, {firstName}!</h2>
 		<p>We hope this message finds you well 🌟</p>
 		<p>
 			This is a friendly reminder to review and update your savings for this

@@ -49,7 +49,7 @@ export default function Navbar({ theme = "light" }: NavbarProps) {
           href="/dashboard"
           className={`${
             theme === "light" ? "text-neutral" : "text-white"
-          } text-xl font-semibold p-0`}
+          } text-xl font-semibold`}
         >
           Dashboard
         </Link>
