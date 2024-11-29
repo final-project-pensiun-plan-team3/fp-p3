@@ -28,7 +28,7 @@ export default function Navbar({ theme = "light" }: NavbarProps) {
   }, []);
 
   return (
-    <div className="navbar sticky top-0">
+    <div className="navbar">
       <Image
         src="/images/PensiunPlan.png"
         alt="PensiunPlan"

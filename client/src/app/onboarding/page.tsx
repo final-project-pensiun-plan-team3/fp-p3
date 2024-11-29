@@ -24,7 +24,7 @@ export default function Onboarding() {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value,
+      [name]: +value,
     });
 
     const { currentAge, monthlySaving, monthlySpending, inflationRate, investationRate } = formData;

@@ -6,12 +6,12 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div>
+      <Navbar />
       <div
         className="bg-cover bg-center h-screen"
         style={{ backgroundImage: "url('/images/HomeBase.jpg')" }}
       >
-        <Navbar theme="dark" />
-        <div className="flex items-center justify-center h-full bg-black bg-opacity-50">
+        <div className="flex items-center h-full justify-center bg-black bg-opacity-50">
           <div className="text-center text-white px-4">
             <h1 className="text-5xl font-bold mb-6">HELLO THERE</h1>
             <p className="text-lg mb-6">
