@@ -16,7 +16,7 @@ export async function GET() {
       console.log("🚀 ~ data.forEach ~ daysDiff:", daysDiff)
       // console.log("🚀 ~ data.forEach ~ daysDiff:", daysDiff,e.user)
 
-      if (daysDiff < 1) {
+      if (daysDiff < 31 && daysDiff >= 30) {
         try {
             await axios.post("http://localhost:3000/apis/send", {
               email: e.user.email,
