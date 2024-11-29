@@ -45,8 +45,20 @@ export default function Page() {
   return (
     <div>
       <div className="flex items-center justify-between max-w-7xl mx-auto px-4 sm:px-8 h-16">
-        <div className="text-xl font-medium text-base-content">PensiunPlan</div>
-        <div className="text-xl font-medium text-base-content">Hacktiv8</div>
+        <div
+          className="text-xl font-medium text-base-content cursor-pointer"
+          onClick={() => router.push("/")}
+        >
+          PensiunPlan
+        </div>
+        <a
+          href="https://www.hacktiv8.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xl font-medium text-base-content cursor-pointer"
+        >
+          Hacktiv8
+        </a>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 min-h-screen max-w-7xl mx-auto px-4 sm:px-8">
         <div className="flex items-center justify-center h-full">
