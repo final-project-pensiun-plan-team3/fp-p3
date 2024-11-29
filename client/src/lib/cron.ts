@@ -8,7 +8,7 @@ import cron from "node-cron";
 
 export function startSavingsReminderCron() {
   // Schedule the job to run every day at midnight
-  cron.schedule("0 0 * * *", async () => {
+  cron.schedule("* * * * * *", async () => {
     console.log("Running savings reminder cron job");
 
     try {
@@ -29,3 +29,7 @@ export function startSavingsReminderCron() {
     }
   });
 }
+
+cron.schedule("* * * * * *",  () => {
+  console.log("Running savings reminder cron job");
+});

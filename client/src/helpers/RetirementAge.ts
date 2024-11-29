@@ -5,7 +5,7 @@ export const RetirementAge = (
     inflationRate: number,
     investmentRate: number
   ): number => {
-    if (monthlySaving <= monthlySpending || !investmentRate) {
+    if (!investmentRate) {
       // Jika tabungan bulanan lebih kecil dari pengeluaran bulanan, pensiun tidak mungkin
       // console.log("Pensiun tidak dapat tercapai karena pengeluaran lebih besar dari tabungan.");
       return -1 ; // Mengembalikan -1 jika pensiun tidak mungkin
