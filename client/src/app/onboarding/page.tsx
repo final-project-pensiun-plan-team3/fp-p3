@@ -10,11 +10,11 @@ import Swal from "sweetalert2";
 
 export default function Onboarding() {
   const [formData, setFormData] = useState({
-    currentAge: 0,
-    monthlySaving: 0,
-    monthlySpending: 0,
-    inflationRate: 0,
-    investationRate: 0,
+    currentAge: "",
+    monthlySaving: "",
+    monthlySpending: "",
+    inflationRate: "",
+    investationRate: "",
   });
 
   const [retirementAge, setRetirementAge] = useState<number | null>(null);
@@ -31,11 +31,11 @@ export default function Onboarding() {
 
     if (currentAge && monthlySaving && monthlySpending && inflationRate) {
       const result = RetirementAge(
-        parseInt(currentAge),
-        parseInt(monthlySaving),
-        parseInt(monthlySpending),
-        parseFloat(inflationRate),
-        parseFloat(investationRate)
+        Number(currentAge),
+        Number(monthlySaving),
+        Number(monthlySpending),
+        Number(inflationRate),
+        Number(investationRate)
       );
       setRetirementAge(result);
     }

@@ -16,6 +16,7 @@ export default function Navbar({ theme = "light" }: NavbarProps) {
   const name = Cookies.get("name");
 
   const handleLogout = () => {
+    
     router.push("/login");
   };
 
