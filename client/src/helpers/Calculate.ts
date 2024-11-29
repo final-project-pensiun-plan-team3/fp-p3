@@ -46,12 +46,12 @@ export function calculateRetirementPlan(
 
   // Return result as an object
   const output: RetirementPlanOutput = {
-    totalSaving: savings,
+    totalSaving: 0,
     progress: ((savings / targetRetirementFund) * 100).toFixed(2),
     targetSaving: targetRetirementFund,
     futureMonthlySpending: futureSpending / 12, // Convert back to monthly
-    inflationRate: (inflationRate * 100).toFixed(2),
-    investmentRate: (investmentRate * 100).toFixed(2),
+    inflationRate: (inflationRate * 1).toFixed(2),
+    investmentRate: (investmentRate * 1).toFixed(2),
     monthlySaving: monthlySaving,
     monthlySpending: monthlySpending,
     retirementAge: retirementAge.toString(),
@@ -60,4 +60,4 @@ export function calculateRetirementPlan(
   return output;
 }
 
-console.log(calculateRetirementPlan(20, 500000, 300000, 0.04, 0.06));
+// console.log(calculateRetirementPlan(20, 500000, 300000, 0.04, 0.06));
