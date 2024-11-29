@@ -31,11 +31,11 @@ export default function Onboarding() {
 
     if (currentAge && monthlySaving && monthlySpending && inflationRate) {
       const result = RetirementAge(
-        Number(currentAge),
-        Number(monthlySaving),
-        Number(monthlySpending),
-        Number(inflationRate),
-        Number(investationRate)
+        parseInt(currentAge),
+        parseInt(monthlySaving),
+        parseInt(monthlySpending),
+        parseInt(inflationRate),
+        parseInt(investationRate)
       );
       setRetirementAge(result);
     }

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
+import { deleteCookies } from "@/action";
 
 type NavbarProps = {
   theme?: "light" | "dark";
@@ -15,8 +16,8 @@ export default function Navbar({ theme = "light" }: NavbarProps) {
   const avatar = Cookies.get("avatar");
   const name = Cookies.get("name");
 
-  const handleLogout = () => {
-    
+  const handleLogout = async() => {
+    await deleteCookies(["Authorization","avatar","username"])
     router.push("/login");
   };
 

@@ -2,7 +2,9 @@
 
 import { cookies } from "next/headers";
 
-export async function deleteCookie(name: string) {
-  const cookieStore = cookies(); 
-  cookieStore.delete(name); 
+export async function deleteCookies(names: string[]) {
+  const cookieStore = cookies();
+  names.forEach((name) => {
+    cookieStore.delete(name);
+  });
 }
