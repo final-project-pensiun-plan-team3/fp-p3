@@ -10,17 +10,20 @@ export default function Page() {
   const router = useRouter();
   async function handleCredentialResponse(response: any) {
     console.log("Encoded JWT ID token: " + response.credential);
+    try {
+      const res = await axios.post("http://localhost:3000/apis/login", null, {
+        headers: {
+          token: response.credential,
+        },
+      });
+      const data = res.data;
+      cookies.set("username", data.name, { expires: 90 });
+      cookies.set("avatar", data.picture, { expires: 90 });
 
-    const res = await axios.post("http://localhost:3000/apis/login", null, {
-      headers: {
-        token: response.credential,
-      },
-    });
-    const data = res.data;
-    cookies.set("username", data.name, { expires: 90 });
-    cookies.set("avatar", data.picture, { expires: 90 });
-
-    router.replace("/");
+      router.push("/");
+    } catch (error) {
+      console.log("🚀 ~ handleCredentialResponse ~ error:", error);
+    }
   }
 
   useEffect(() => {

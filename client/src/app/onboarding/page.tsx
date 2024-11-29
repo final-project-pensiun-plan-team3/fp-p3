@@ -3,16 +3,18 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { RetirementAge } from "@/helpers/RetirementAge";
+import axios from "axios";
 import { useState } from "react";
 import Swal from "sweetalert2";
 
+
 export default function Onboarding() {
   const [formData, setFormData] = useState({
-    currentAge: "",           // Untuk usia saat ini
-    monthlySaving: "",       // Untuk tabungan bulanan
-    monthlySpending: "",     // Untuk pengeluaran bulanan
-    inflationRate: "",       // Untuk persentase inflasi tahunan
-    investationRate: "",     // Untuk persentase return investasi
+    currentAge: 0,
+    monthlySaving: 0,
+    monthlySpending: 0,
+    inflationRate: 0,
+    investationRate: 0,
   });
 
   const [retirementAge, setRetirementAge] = useState<number | null>(null);
@@ -24,11 +26,10 @@ export default function Onboarding() {
       ...formData,
       [name]: value,
     });
-    
-    // Kalkulasi usia pensiun setiap kali input berubah
+
     const { currentAge, monthlySaving, monthlySpending, inflationRate, investationRate } = formData;
 
-    if (currentAge && monthlySaving && monthlySpending && inflationRate ) {
+    if (currentAge && monthlySaving && monthlySpending && inflationRate) {
       const result = RetirementAge(
         parseInt(currentAge),
         parseInt(monthlySaving),
@@ -40,19 +41,28 @@ export default function Onboarding() {
     }
   };
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    if(retirementAge < 0) {
+
+    if (retirementAge !== null && retirementAge < 0) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
         text: "Retirement is not possible because your monthly spending is greater than your monthly saving.",
-      });} else {
-        console.log("Form Submitted:", formData);
-        setIsSubmitted(true);
+      });
+    } else {
+      try {
+        const data = await axios.post("/apis/retirement", formData);
+
+        // const data = await response.json();
+        console.log(data, 'data');
+
+          Swal.fire("Success", "Data Successfully Updated", "success");
+          setIsSubmitted(true);
+      } catch {
+        Swal.fire("Error", "Something went wrong!", "error");
       }
-      
-   
+    }
   };
 
   return (
