@@ -28,6 +28,7 @@ export async function POST(request: NextRequest) {
       const insertedData = {
         ...data,
         UserId: new ObjectId(UserId),
+        totalSavings:0,
         createdAt: indonesianDate(),
         updatedAt: indonesianDate(),
       };
