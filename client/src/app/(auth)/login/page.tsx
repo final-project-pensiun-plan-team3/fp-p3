@@ -5,10 +5,15 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import cookies from "js-cookie";
+interface CredentialResponse {
+  credential: string; // JWT token
+  // Add other properties if necessary
+}
 
 export default function Page() {
   const router = useRouter();
-  async function handleCredentialResponse(response: any) {
+
+  async function handleCredentialResponse(response: CredentialResponse) {
     console.log("Encoded JWT ID token: " + response.credential);
     try {
       const res = await axios.post("http://localhost:3000/apis/login", null, {

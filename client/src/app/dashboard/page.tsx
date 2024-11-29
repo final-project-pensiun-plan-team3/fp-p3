@@ -145,15 +145,17 @@ export default function Dashboard() {
                   {/* Radial Progress Bar */}
                   <div
                     className="radial-progress text-blue-500"
-                    style={{
-                      "--value": percentSaving,
-                      "--size": "12rem", 
-                      "--thickness": "5px", 
-                    }}
+                    style={
+                      {
+                        "--value": percentSaving,
+                        "--size": "12rem",
+                        "--thickness": "5px",
+                      } as React.CSSProperties
+                    }
                     role="progressbar"
-                    aria-valuenow="70"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
+                    aria-valuenow={percentSaving}
+                    aria-valuemin={0}
+                    aria-valuemax={100}
                   >
                     <span className="text-2xl font-bold text-gray-800 animate-pulse">
                       {percentSaving} %

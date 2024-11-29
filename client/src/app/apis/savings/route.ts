@@ -1,10 +1,12 @@
 import { Saving } from "@/db/models/savings";
 import { indonesianDate } from "@/helpers/IndonesianDate";
 import { handleError, HttpError } from "@/lib/errorhandler";
+import { NextRequest } from "next/server";
 
-export async function GET() {
+export async function GET(request:NextRequest) {
   try {
-    const UserId = "6744362e16f24b8ddf424622";
+    const UserId = request.headers.get("x-UserId");
+    console.log("🚀 ~ GET ~ UserId:", UserId)
     if (!UserId || typeof UserId !== "string") {
       throw new HttpError("User ID is required", 400);
     }
@@ -17,9 +19,11 @@ export async function GET() {
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(request: NextRequest) {
   try {
-    const { UserId, amountSaved } = await req.json();
+    const {amountSaved } = await request.json();
+    const UserId = request.headers.get("x-UserId");
+    
 
     if (!UserId || !amountSaved) {
       throw new HttpError("User ID and amountSaved are required", 400);
