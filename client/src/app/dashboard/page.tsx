@@ -135,57 +135,53 @@ export default function Page() {
 
         {/* Recent Activity Table */}
         <div className="space-y-16 py-16 xl:space-y-20">
-          <div>
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-              <h2 className="mx-auto max-w-2xl text-base font-semibold text-gray-900 lg:mx-0 lg:max-w-none">Recent activity</h2>
-            </div>
-            <div className="mt-6 overflow-hidden border-t border-gray-100">
-              <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
-                  <table className="w-full text-left">
-                    <thead className="text-sm text-gray-900">
-                      <tr>
-                        <th className="bg-gray-50 border-gray-200 border-b py-2">Amount</th>
-                        <th className="bg-gray-50 border-gray-200 border-b py-2">Transaction Date</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {/* Hardcoded Transactions */}
-                      <tr>
-                        <td className="relative py-5 pr-6">
-                          <div className="flex gap-x-6">
-                            <div className="text-gray-900 text-sm/6">1</div>
-                            <ArrowUpCircleIcon aria-hidden="true" className="hidden h-6 w-5 flex-none text-gray-400 sm:block" />
-                            <div className="flex-auto">
-                              <div className="flex items-start gap-x-3">
-                                <div className="text-sm/6 font-medium text-gray-900">Rp 2,000,000</div>
+      <div>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <h2 className="mx-auto max-w-2xl text-base font-semibold text-gray-900 lg:mx-0 lg:max-w-none">
+            Recent activity
+          </h2>
+        </div>
+        <div className="mt-6 overflow-hidden border-t border-gray-100">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
+              <table className="w-full text-left">
+                <thead className="text-sm text-gray-900">
+                  <tr>
+                    <th className="bg-gray-50 border-gray-200 border-b py-2">Amount</th>
+                    <th className="bg-gray-50 border-gray-200 border-b py-2">Transaction Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {dataSaving.map((transaction, index) => (
+                    <tr key={transaction._id.toString()}>
+                      <td className="relative py-5 pr-6">
+                        <div className="flex gap-x-6">
+                          <div className="text-gray-900 text-sm">{index + 1}</div>
+                          <ArrowUpCircleIcon
+                            aria-hidden="true"
+                            className="hidden h-6 w-5 flex-none text-gray-400 sm:block"
+                          />
+                          <div className="flex-auto">
+                            <div className="flex items-start gap-x-3">
+                              <div className="text-sm font-medium text-gray-900">
+                                Rp {transaction.amountSaved.toLocaleString()}
                               </div>
                             </div>
                           </div>
-                        </td>
-                        <td className="py-5 text-sm/6 text-gray-900">2024-11-01</td>
-                      </tr>
-                      <tr>
-                        <td className="relative py-5 pr-6">
-                          <div className="flex gap-x-6">
-                            <div className="text-gray-900 text-sm/6">2</div>
-                            <ArrowUpCircleIcon aria-hidden="true" className="hidden h-6 w-5 flex-none text-gray-400 sm:block" />
-                            <div className="flex-auto">
-                              <div className="flex items-start gap-x-3">
-                                <div className="text-sm/6 font-medium text-gray-900">Rp 3,000,000</div>
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="py-5 text-sm/6 text-gray-900">2024-11-15</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+                        </div>
+                      </td>
+                      <td className="py-5 text-sm text-gray-900">
+                        {new Date(transaction.createdAt).toLocaleDateString()}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
+      </div>
+    </div>
       </main>
       <Footer />
     </>

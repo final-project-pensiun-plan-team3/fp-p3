@@ -13,6 +13,7 @@ export type RetirementPlanType = {
 };
 
 export type SavingType = {
+  _id: ObjectId;
   UserId: ObjectId;
   amountSaved: number;
   createdAt: Date;
