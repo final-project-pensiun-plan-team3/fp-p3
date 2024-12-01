@@ -15,7 +15,6 @@ export default function Navbar({ theme = "light" }: NavbarProps) {
   const router = useRouter();
   const avatar = Cookies.get("avatar");
   const name = Cookies.get("name");
-  const token = Cookies.get("Authorization");
 
   const handleLogout = async() => {
     await deleteCookies(["Authorization","avatar","username"])
@@ -72,29 +71,16 @@ export default function Navbar({ theme = "light" }: NavbarProps) {
                     height={40}
                   />
                 ) : (
-                  <Image
-                    alt="Tailwind CSS Navbar component"
-                    src={"/images/image.png"}
-                    width={40}
-                    height={40}
-                  />
+                  <span className="text-xl">{name?.[0] || ""}</span>
                 )}
               </div>
             </div>
             <ul
               tabIndex={0}
-              className={
-                !token
-                  ? "menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-30 p-2 shadow text-blue-500 border-2 border-blue-500"
-                  : "menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-30 p-2 shadow text-red-500 border-2 border-red-500"
-              }
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-30 p-2 shadow text-red-500 border-2 border-red-500"
             >
               <li>
-                {!token ? (
-                  <a onClick={()=>router.push("/login")}>Login</a>
-                ) : (
-                  <a onClick={handleLogout}>Logout</a>
-                )}
+                <a onClick={handleLogout}>Logout</a>
               </li>
             </ul>
           </div>
