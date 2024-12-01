@@ -37,17 +37,18 @@ export async function POST(request: NextRequest) {
             ]
 
             Ensure that the response contains **no additional explanations** or commentary. Only output the list in the exact array format provided above.
-            **Important**: The response must strictly follow this JSON format without any markdown or extra text.
+            **Important**: The response must strictly follow this format without any markdown or extra text.
         `;
 
 		const result = await model.generateContent(prompt);
 
-		return new Response(
-			JSON.stringify({ recommendation: result.response.text() }),
-			{
-				headers: { "Content-Type": "application/json" },
-			}
-		);
+		const cleanedRecommendation = result.response
+			.text()
+			.replace(/```json\n|\n```/g, "");
+
+		return new Response(cleanedRecommendation, {
+			headers: { "Content-Type": "text/plain" },
+		});
 	} catch (error) {
 		console.error("Error generating recommendation:", error);
 		return handleError(error);
