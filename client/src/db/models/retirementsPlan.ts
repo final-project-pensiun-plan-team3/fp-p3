@@ -22,29 +22,4 @@ export class RetirementPlan {
 
     return data;
   }
-
-  static async updateSavings(additionalSaving: number, UserId: string) {
-    if (!UserId) {
-      throw new HttpError("User Id is required", 401);
-    }
-
-    const data = await this.db.findOne({ UserId: new ObjectId(UserId) });
-    if (!data) {
-      throw new HttpError("Data Not Found", 404);
-    }
-
-    const result = await this.db.updateOne(
-      { UserId: new ObjectId(UserId) },
-      { $inc: { totalSavings: additionalSaving } }
-    );
-
-    if (result.modifiedCount === 1) {
-      const updatedData = await this.db.findOne({
-        UserId: new ObjectId(UserId),
-      });
-      return updatedData;
-    } else {
-      throw new HttpError("Failed to update savings", 500);
-    }
-  }
 }

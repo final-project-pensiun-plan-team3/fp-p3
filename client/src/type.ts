@@ -7,7 +7,6 @@ export type RetirementPlanType = {
   monthlySpending: number;
   inflationRate: number;
   investationRate: number;
-  totalSavings: number;
   createdAt: Date;
   updatedAt: Date;
 };

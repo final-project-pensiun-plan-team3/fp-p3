@@ -42,18 +42,3 @@ export async function POST(request: NextRequest) {
     return handleError(error);
   }
 }
-
-export async function PUT(request: NextRequest) {
-  try {
-    const { additionalSaving } = await request.json();
-    const UserId = request.headers.get("x-UserId");
-
-    if (UserId) {
-      const plan = await RetirementPlan.updateSavings(additionalSaving, UserId);
-      return Response.json(plan);
-    }
-  } catch (error) {
-    // console.log("🚀 ~ PUT ~ error:", error)
-    return handleError(error);
-  }
-}
