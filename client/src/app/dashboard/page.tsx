@@ -11,6 +11,7 @@ import { calculateRetirementPlan } from "@/helpers/Calculate";
 import axios from "axios";
 import { SavingType } from "@/type";
 import AIRecommendationButton from "@/components/ui/gemini-button";
+import Example from "@/components/ui/BarLoader";
 
 export default function Page() {
 	const [data, setData] = useState(null);
@@ -42,8 +43,7 @@ export default function Page() {
 		fetchData();
 	}, []);
 
-	// Loading state when data is still being fetched
-	if (loading) return <div>Loading...</div>;
+	if (loading) return <div><Example/></div>;
 	if (!data) return <div>No data available</div>;
 
 	const {
@@ -63,7 +63,6 @@ export default function Page() {
 		investationRate
 	);
 
-	//harta tahta
 	const totalSaving = dataSaving.reduce((a, b) => a + b.amountSaved, 0);
 	// console.log(totalSaving)
 
