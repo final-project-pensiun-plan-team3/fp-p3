@@ -21,8 +21,9 @@ export async function GET(request:NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const {amountSaved } = await request.json();
+    let {amountSaved } = await request.json();
     const UserId = request.headers.get("x-UserId");
+    amountSaved = Number(amountSaved)
     
 
     if (!UserId || !amountSaved) {

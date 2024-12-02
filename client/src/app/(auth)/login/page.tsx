@@ -29,7 +29,7 @@ export default function Page() {
       );
       const data = res.data;
       cookies.set("username", data.name, { expires: 90 });
-      setCookies("Authorization", data.accessToken);
+      setCookies("Authorization",data.accessToken)
       cookies.set("avatar", data.picture, { expires: 90 });
 
       router.push("/");

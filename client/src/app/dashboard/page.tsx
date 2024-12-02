@@ -18,7 +18,7 @@ export default function Page() {
   const [loading, setLoading] = useState(true);
   const [dataSaving, setDataSaving] = useState<SavingType[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [savingAmount, setSavingAmount] = useState(0);
+  const [savingAmount, setSavingAmount] = useState("");
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
   const handleSubmitSaving = async () => {
@@ -306,7 +306,7 @@ export default function Page() {
                   type="number"
                   className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
                   value={savingAmount}
-                  onChange={(e) => setSavingAmount(Number(e.target.value))}
+                  onChange={(e) => setSavingAmount(e.target.value)}
                   required
                 />
               </div>
