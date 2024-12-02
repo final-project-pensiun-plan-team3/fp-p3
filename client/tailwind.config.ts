@@ -15,6 +15,7 @@ const config: Config = {
         "navy-dark": "#001f3f",
         "navy-medium": "#003366",
         "navy-light": "#00509e",
+        "gold-classic": "#FFCC00",
         white: "#ffffff",
         "off-white": "#f8f9fa",
       },
