@@ -45,7 +45,7 @@ export default function Onboarding() {
   }, [formData]);
 
 
-  console.log(retirementAge, )
+  // console.log(retirementAge, )
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();

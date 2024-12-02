@@ -11,6 +11,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { deleteCookies } from "@/action";
 
 // Komponen untuk navbar floating dengan logo dan avatar
 export const FloatingNav = ({
@@ -25,7 +26,8 @@ export const FloatingNav = ({
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false); 
   const avatar = Cookies.get("avatar"); 
-  const name = Cookies.get("username"); 
+  // const name = Cookies.get("username"); 
+  const token = Cookies.get("Authorization"); 
   const router = useRouter();
 
   useMotionValueEvent(scrollYProgress, "change", (current) => {
@@ -49,6 +51,7 @@ export const FloatingNav = ({
     Cookies.remove("Authorization");
     Cookies.remove("avatar");
     Cookies.remove("username");
+    deleteCookies(["Authorization", "username", "avatar"]);
     router.push("/login");
   };
 
@@ -61,7 +64,7 @@ export const FloatingNav = ({
   }
 
   return (
-    <AnimatePresence mode="wait" >
+    <AnimatePresence mode="wait">
       <motion.div
         initial={{ opacity: 1, y: -100 }}
         animate={{ y: visible ? 0 : -100, opacity: visible ? 1 : 0 }}
@@ -99,14 +102,14 @@ export const FloatingNav = ({
 
           {/* Tombol Home */}
           <Link href="/" passHref>
-            <button className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full">
+            <button className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
               <span>Home</span>
             </button>
           </Link>
 
           {/* Tombol Dashboard */}
           <Link href="/dashboard" passHref>
-            <button className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full">
+            <button className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-black dark:text-white px-4 py-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
               <span>Dashboard</span>
             </button>
           </Link>
@@ -120,14 +123,14 @@ export const FloatingNav = ({
           >
             <div className="w-10 h-10 rounded-full overflow-hidden">
               {avatar ? (
+                <Image src={avatar} alt="Avatar" width={50} height={50} />
+              ) : (
                 <Image
-                  src={avatar}
+                  src={"/images/image.png"}
                   alt="Avatar"
                   width={50}
                   height={50}
                 />
-              ) : (
-                <span className="text-xl">{name?.[0]}</span>
               )}
             </div>
           </div>
@@ -137,12 +140,21 @@ export const FloatingNav = ({
             <div className="absolute right-0 mt-4 w-35 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-10">
               <ul className="py-2 text-sm text-gray-800 dark:text-white">
                 <li>
-                  <button
-                    onClick={handleLogout}
-                    className="block px-4 py-2 text-red-500 hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    Logout
-                  </button>
+                  {token ? (
+                    <button
+                      onClick={handleLogout}
+                      className="block px-4 py-2 text-red-500 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      Logout
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => router.push("/login")}
+                      className="block px-4 py-2 text-blue-500 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      Login
+                    </button>
+                  )}
                 </li>
               </ul>
             </div>

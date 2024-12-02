@@ -8,3 +8,7 @@ export async function deleteCookies(names: string[]) {
     cookieStore.delete(name);
   });
 }
+
+export async function setCookies(name:string,value:string) {
+  cookies().set(name, value);
+}

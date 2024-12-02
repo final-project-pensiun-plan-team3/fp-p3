@@ -3,6 +3,7 @@ import { Auth } from "@/db/models/users";
 import { NextResponse } from "next/server";
 
 import { OAuth2Client } from "google-auth-library";
+import { HttpError } from "@/lib/errorhandler";
 
 export async function POST(request: Request) {
   try {
@@ -19,12 +20,13 @@ export async function POST(request: Request) {
     });
     const payload = ticket.getPayload();
     console.log(payload);
-    if (payload) {
-      await Auth.create(payload?.email as string, payload?.name as string);
+    if (!payload) {
+      throw new HttpError("Invalid",401)
     }
+    const accessToken = await Auth.create(payload?.email as string, payload?.name as string);
 
     return NextResponse.json({
-      accessToken: "token",
+      accessToken: accessToken,
       name: payload?.name,
       picture: payload?.picture,
     });

@@ -22,5 +22,6 @@ export class Auth {
     const UserId = { UserId: user?._id };
     const accessToken = jwt.sign(UserId, process.env.JWT_SECRET as string);
     cookies().set("Authorization", accessToken);
+    return accessToken
   }
 }
