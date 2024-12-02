@@ -1,6 +1,5 @@
 "use client";
 
-import Footer from "@/components/Footer";
 import { FloatingNav } from "@/components/ui/floating-navbar";
 import { TypewriterEffect } from "@/components/ui/typewriter-effect";
 // import { WavyBackground } from "@/components/ui/wavy-background";
@@ -42,14 +41,14 @@ export default function Home() {
   console.log(name);
 
   return (
-    <div className="overflow-hidden">
+    <div className="flex flex-col min-h-screen">
       {/* Floating Navbar */}
       <FloatingNav />
 
       {/* Wavy Background */}
       <WavyBackground
-        className="h-screen"
-        containerClassName="relative" // Ensure WavyBackground content is above the canvas
+        className="flex flex-col flex-grow" // Ensure flex-column layout inside WavyBackground
+        containerClassName="relative" // Positioning context
         colors={[
           "rgb(38, 49, 64)",
           "rgb(139, 100, 59)",
@@ -57,14 +56,14 @@ export default function Home() {
           "rgb(229, 206, 166)",
           "rgb(34, 211, 238)",
         ]}
-        waveWidth={60} // Customize wave width
-        backgroundFill="rgba(0, 0, 0, 0.5)" // Adjust background overlay
-        blur={10} // Optional: Control blur
-        speed="fast" // Optional: Control speed
-        waveOpacity={0.5} // Optional: Control opacity
+        waveWidth={60}
+        backgroundFill="rgba(0, 0, 0, 0.5)"
+        blur={10}
+        speed="fast"
+        waveOpacity={0.5}
       >
-        {/* Content inside WavyBackground */}
-        <div className="flex items-center h-full justify-center">
+        {/* Main Content */}
+        <div className="flex-grow flex items-center justify-center">
           <div className="text-center text-white px-4">
             <h1 className="text-[60px] font-bold mb-12">Hello, {name}!</h1>
             <TypewriterEffect
@@ -79,10 +78,16 @@ export default function Home() {
             </Link>
           </div>
         </div>
-      </WavyBackground>
 
-      {/* Footer */}
-      <Footer />
+        {/* Footer */}
+        <div className="text-center mt-auto py-4 text-white">
+          <p>
+            © {new Date().getFullYear()} - PensiunPlan | All rights reserved
+          </p>
+        </div>
+      </WavyBackground>
     </div>
   );
+
+
 }
