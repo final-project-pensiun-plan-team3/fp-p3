@@ -36,9 +36,9 @@ export async function POST(request: NextRequest) {
 		Please provide a list of **recommended investment instruments and the names** in Indonesia with their **return rates** and **output estimates based on total saving** in the following format:
 	
 		[
-			{ "instrument": "Government Bonds", "returnRate": "6%", "output": "Rp ${(totalSaving * (1 + 6 / 100)).toLocaleString('id-ID')}" },
-			{ "instrument": "Stocks", "returnRate": "8%", "output": "Rp ${(totalSaving * (1 + 8 / 100)).toLocaleString('id-ID')}" },
-			{ "instrument": "Mutual Funds", "returnRate": "7%", "output": "Rp ${(totalSaving * (1 + 7 / 100)).toLocaleString('id-ID')}" }
+			{ "instrument": "Government Bonds", "returnRate": "%", "output": "Rp ${(totalSaving * (1 + 6 / 100)).toLocaleString('id-ID')}" },
+			{ "instrument": "Stocks", "returnRate": "%", "output": "Rp ${(totalSaving * (1 + 8 / 100)).toLocaleString('id-ID')}" },
+			{ "instrument": "Mutual Funds", "returnRate": "%", "output": "Rp ${(totalSaving * (1 + 7 / 100)).toLocaleString('id-ID')}" }
 		]
 	
 		Ensure that the response contains **no additional explanations** or commentary. Only output the list in the exact array format provided above.

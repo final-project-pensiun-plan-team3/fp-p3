@@ -7,5 +7,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <Protected>{children}</Protected>;
+  return (
+    // <div className="overflow-hidden min-h-screen">
+      <Protected>{children}</Protected>
+    // </div>
+  );
 }
