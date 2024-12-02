@@ -13,8 +13,10 @@ type AIRecommendationButtonProps = {
 		monthlySpending: number;
 		inflationRate: number;
 		investationRate: number;
+		totalSaving: number;
 	};
 };
+
 
 export default function AIRecommendationButton({
 	data,
@@ -58,6 +60,7 @@ export default function AIRecommendationButton({
 				monthlySpending,
 				inflationRate,
 				investationRate,
+				totalSaving,
 			} = data;
 
 			const body = {
@@ -66,6 +69,7 @@ export default function AIRecommendationButton({
 				monthlySpending,
 				inflationRate,
 				investmentRate: investationRate,
+				totalSaving,
 			};
 
 			const response = await axios.post("/apis/recommendation", body);
@@ -119,11 +123,11 @@ export default function AIRecommendationButton({
 			onMouseDown={handleMouseDown}
 			onMouseEnter={() => setIsHovering(true)}
 			onMouseLeave={() => setIsHovering(false)}
-			className="fixed bottom-4 right-4 w-14 h-14 bg-gray-800 text-white flex items-center justify-center rounded-full shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-move select-none">
+			className="fixed bottom-4 right-4 w-14 h-14 bg-gray-800 text-white flex items-center justify-center rounded-full shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-move select-none overflow-hidden">
 			<button
 				onClick={handleGetAIRecommendation}
 				className="flex items-center justify-center">
-				<Image src="/images/PensiunPlan.png" alt="AI" width={54} height={54} />
+				<Image src={"/images/businessman.png"} alt="AI" width={54} height={54} />
 			</button>
 			{/* Tooltip */}
 			{isHovering && (
