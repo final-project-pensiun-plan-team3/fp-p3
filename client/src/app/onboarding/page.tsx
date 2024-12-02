@@ -44,7 +44,6 @@ export default function Onboarding() {
     setRetirementAge(result.retirementAge);
   }, [formData]);
 
-
   // console.log(retirementAge, )
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
@@ -58,8 +57,11 @@ export default function Onboarding() {
       });
     } else {
       try {
-        const data = await axios.post("/apis/retirement", formData);
-        console.log(data)
+        const data = await axios.post(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/apis/retirement`,
+          formData
+        );
+        console.log(data);
         Swal.fire("Success", "Data Successfully Updated", "success");
       } catch {
         Swal.fire("Error", "Something went wrong!", "error");
@@ -74,11 +76,18 @@ export default function Onboarding() {
         <div className="flex w-full max-w-screen-xl p-8 space-x-8">
           {/* Form Section (Left) */}
           <div className="bg-white p-8 rounded-lg shadow-lg w-1/2">
-            <h2 className="text-3xl font-bold text-[#8b643b] text-center mb-6">Retirement Plan Form</h2>
+            <h2 className="text-3xl font-bold text-[#8b643b] text-center mb-6">
+              Retirement Plan Form
+            </h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label htmlFor="currentAge" className="block text-sm font-medium text-[#263140]">Current Age</label>
+                <label
+                  htmlFor="currentAge"
+                  className="block text-sm font-medium text-[#263140]"
+                >
+                  Current Age
+                </label>
                 <input
                   type="number"
                   id="currentAge"
@@ -92,7 +101,12 @@ export default function Onboarding() {
               </div>
 
               <div>
-                <label htmlFor="monthlySaving" className="block text-sm font-medium text-[#263140]">Monthly Saving (Rp)</label>
+                <label
+                  htmlFor="monthlySaving"
+                  className="block text-sm font-medium text-[#263140]"
+                >
+                  Monthly Saving (Rp)
+                </label>
                 <input
                   type="number"
                   id="monthlySaving"
@@ -106,7 +120,12 @@ export default function Onboarding() {
               </div>
 
               <div>
-                <label htmlFor="monthlySpending" className="block text-sm font-medium text-[#263140]">Monthly Spending (Rp)</label>
+                <label
+                  htmlFor="monthlySpending"
+                  className="block text-sm font-medium text-[#263140]"
+                >
+                  Monthly Spending (Rp)
+                </label>
                 <input
                   type="number"
                   id="monthlySpending"
@@ -120,7 +139,12 @@ export default function Onboarding() {
               </div>
 
               <div>
-                <label htmlFor="inflationRate" className="block text-sm font-medium text-[#263140]">Inflation Rate (%)</label>
+                <label
+                  htmlFor="inflationRate"
+                  className="block text-sm font-medium text-[#263140]"
+                >
+                  Inflation Rate (%)
+                </label>
                 <input
                   type="number"
                   id="inflationRate"
@@ -134,7 +158,12 @@ export default function Onboarding() {
               </div>
 
               <div>
-                <label htmlFor="investationRate" className="block text-sm font-medium text-[#263140]">Investment Rate (%)</label>
+                <label
+                  htmlFor="investationRate"
+                  className="block text-sm font-medium text-[#263140]"
+                >
+                  Investment Rate (%)
+                </label>
                 <input
                   type="number"
                   id="investationRate"
@@ -148,7 +177,12 @@ export default function Onboarding() {
               </div>
 
               <div>
-                <label htmlFor="retirementAge" className="block text-sm font-medium text-[#263140]">Retirement Age</label>
+                <label
+                  htmlFor="retirementAge"
+                  className="block text-sm font-medium text-[#263140]"
+                >
+                  Retirement Age
+                </label>
                 <input
                   type="number"
                   id="retirementAge"
@@ -172,14 +206,30 @@ export default function Onboarding() {
 
           {/* Explanation Section (Right) */}
           <div className="bg-white p-8 rounded-lg shadow-lg w-1/2">
-            <h2 className="text-3xl font-bold text-[#8b643b] text-center mb-6">What is the 4% Rule?</h2>
+            <h2 className="text-3xl font-bold text-[#8b643b] text-center mb-6">
+              What is the 4% Rule?
+            </h2>
             <p className="text-lg text-[#263140]">
-              The <strong>4% rule</strong> is a retirement planning guideline suggesting that you can withdraw 4% of your retirement savings each year, adjusted for inflation, without running out of money for at least 30 years. For example, if you have saved $1,000,000 for retirement, you could withdraw $40,000 per year (4% of $1,000,000). This strategy assumes a well-balanced portfolio with both stocks and bonds, and is designed to provide sustainable income over the long term.
+              The <strong>4% rule</strong> is a retirement planning guideline
+              suggesting that you can withdraw 4% of your retirement savings
+              each year, adjusted for inflation, without running out of money
+              for at least 30 years. For example, if you have saved $1,000,000
+              for retirement, you could withdraw $40,000 per year (4% of
+              $1,000,000). This strategy assumes a well-balanced portfolio with
+              both stocks and bonds, and is designed to provide sustainable
+              income over the long term.
             </p>
             <br />
-            <h3 className="text-xl font-semibold text-[#263140]">Why the 4% Rule?</h3>
+            <h3 className="text-xl font-semibold text-[#263140]">
+              Why the 4% Rule?
+            </h3>
             <p className="text-lg text-[#263140]">
-              The 4% rule is based on historical market performance and the idea that you should be able to maintain a steady income throughout retirement without the risk of depleting your savings too soon. While it’s a useful guideline, it’s important to consider your individual financial situation, inflation rates, and investment returns when making retirement plans.
+              The 4% rule is based on historical market performance and the idea
+              that you should be able to maintain a steady income throughout
+              retirement without the risk of depleting your savings too soon.
+              While it’s a useful guideline, it’s important to consider your
+              individual financial situation, inflation rates, and investment
+              returns when making retirement plans.
             </p>
           </div>
         </div>
