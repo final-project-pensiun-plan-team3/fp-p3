@@ -18,11 +18,15 @@ export default function Page() {
   async function handleCredentialResponse(response: CredentialResponse) {
     console.log("Encoded JWT ID token: " + response.credential);
     try {
-      const res = await axios.post("http://localhost:3000/apis/login", null, {
-        headers: {
-          token: response.credential,
-        },
-      });
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/apis/login`,
+        null,
+        {
+          headers: {
+            token: response.credential,
+          },
+        }
+      );
       const data = res.data;
       cookies.set("username", data.name, { expires: 90 });
       setCookies("Authorization", data.accessToken);
@@ -86,11 +90,13 @@ export default function Page() {
               Effortless Retirement Plan Management
             </h1>
             <p className="text-base text-center max-w-[320px] mx-auto text-base-content">
-              Plan today for a comfortable tomorrow<br/>with PensiunPlan
+              Plan today for a comfortable tomorrow
+              <br />
+              with PensiunPlan
             </p>
             <div className="flex item-center mt-16">
               <button>
-              <div id="buttonDiv"></div>
+                <div id="buttonDiv"></div>
               </button>
             </div>
           </div>

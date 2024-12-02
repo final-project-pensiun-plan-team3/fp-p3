@@ -7,7 +7,11 @@ import { TypewriterEffect } from "@/components/ui/typewriter-effect";
 import Link from "next/link";
 import Cookies from "js-cookie";
 import dynamic from "next/dynamic";
-const WavyBackground = dynamic(() => import('@/components/ui/wavy-background').then((mod) => mod.WavyBackground), { ssr: false });
+const WavyBackground = dynamic(
+  () =>
+    import("@/components/ui/wavy-background").then((mod) => mod.WavyBackground),
+  { ssr: false }
+);
 
 export default function Home() {
   const words = [
@@ -16,8 +20,10 @@ export default function Home() {
     { text: "your" },
     { text: "future" },
     { text: "with" },
-    { text: "our" },
-    { text: "PensiunPlan.", className: "text-black-500 dark:text-gold-classic" },
+    {
+      text: "PensiunPlan.",
+      className: "text-black-500 dark:text-gold-classic",
+    },
     { text: "Fill" },
     { text: "in" },
     { text: "your" },
@@ -33,18 +39,24 @@ export default function Home() {
   ];
 
   const name = Cookies.get("username");
-  console.log(name)
+  console.log(name);
 
   return (
     <div className="overflow-hidden">
       {/* Floating Navbar */}
       <FloatingNav />
-      
+
       {/* Wavy Background */}
       <WavyBackground
         className="h-screen"
         containerClassName="relative" // Ensure WavyBackground content is above the canvas
-        colors={["rgb(38, 49, 64)", "rgb(139, 100, 59)", "rgb(100, 120, 141)", "rgb(229, 206, 166)", "rgb(34, 211, 238)"]}
+        colors={[
+          "rgb(38, 49, 64)",
+          "rgb(139, 100, 59)",
+          "rgb(100, 120, 141)",
+          "rgb(229, 206, 166)",
+          "rgb(34, 211, 238)",
+        ]}
         waveWidth={60} // Customize wave width
         backgroundFill="rgba(0, 0, 0, 0.5)" // Adjust background overlay
         blur={10} // Optional: Control blur
@@ -54,8 +66,11 @@ export default function Home() {
         {/* Content inside WavyBackground */}
         <div className="flex items-center h-full justify-center">
           <div className="text-center text-white px-4">
-            <h1 className="text-[60px] font-bold mb-12">Hello! {name}</h1> 
-            <TypewriterEffect className="mb-10 max-w-[950px] text-[30px]" words={words} /> 
+            <h1 className="text-[60px] font-bold mb-12">Hello, {name}!</h1>
+            <TypewriterEffect
+              className="mb-10 max-w-[950px] text-[30px]"
+              words={words}
+            />
             <Link
               href={"/onboarding"}
               className="bg-secondary text-white font-bold py-2 px-6 rounded hover:bg-blue-700 border-e-base-100 transition-all ease-[cubic-bezier(0.68,-0.55,0.27,1.55)] duration-300 text-lg"
