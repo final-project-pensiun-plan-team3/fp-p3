@@ -6,6 +6,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import cookies from "js-cookie";
 import Image from "next/image";
+import { setCookies } from "@/action";
 interface CredentialResponse {
   credential: string; // JWT token
   // Add other properties if necessary
@@ -24,6 +25,7 @@ export default function Page() {
       });
       const data = res.data;
       cookies.set("username", data.name, { expires: 90 });
+      setCookies("Authorization", data.accessToken);
       cookies.set("avatar", data.picture, { expires: 90 });
 
       router.push("/");
@@ -41,8 +43,8 @@ export default function Page() {
       callback: handleCredentialResponse,
     });
     google.accounts.id.renderButton(buttonDiv, {
-      theme: "outline",
-      size: "large", // customization attributes
+      theme: "filled_black",
+      size: "large",
       type: "standard",
     });
     google.accounts.id.prompt(); // also display the One Tap dialog
