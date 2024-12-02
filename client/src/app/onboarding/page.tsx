@@ -1,8 +1,8 @@
 "use client";
 
-import Footer from "@/components/Footer";
 import { FloatingNav } from "@/components/ui/floating-navbar";
 import { calculateRetirementPlan } from "@/helpers/Calculate";
+import { Rp } from "@/helpers/currency";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -72,14 +72,14 @@ export default function Onboarding() {
   return (
     <div>
       <FloatingNav />
-      <div className="h-screen bg-[#263140] flex items-center justify-center">
-        <div className="flex w-full max-w-screen-xl p-8 space-x-8">
+      <div className="min-h-screen bg-[#263140] flex items-center justify-center p-4">
+        <div className="flex flex-col sm:flex-row w-full max-w-screen-xl p-8 space-y-8 sm:space-y-0 sm:space-x-8">
           {/* Form Section (Left) */}
-          <div className="bg-white p-8 rounded-lg shadow-lg w-1/2">
+          <div className="bg-white p-8 rounded-lg shadow-lg w-full sm:w-1/2">
             <h2 className="text-3xl font-bold text-[#8b643b] text-center mb-6">
               Retirement Plan Form
             </h2>
-
+  
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label
@@ -99,7 +99,7 @@ export default function Onboarding() {
                   className="w-full px-4 py-2 mt-2 border border-[#64788d] rounded-md focus:outline-none focus:ring-2 focus:ring-[#8b643b]"
                 />
               </div>
-
+  
               <div>
                 <label
                   htmlFor="monthlySaving"
@@ -118,7 +118,7 @@ export default function Onboarding() {
                   className="w-full px-4 py-2 mt-2 border border-[#64788d] rounded-md focus:outline-none focus:ring-2 focus:ring-[#8b643b]"
                 />
               </div>
-
+  
               <div>
                 <label
                   htmlFor="monthlySpending"
@@ -137,7 +137,7 @@ export default function Onboarding() {
                   className="w-full px-4 py-2 mt-2 border border-[#64788d] rounded-md focus:outline-none focus:ring-2 focus:ring-[#8b643b]"
                 />
               </div>
-
+  
               <div>
                 <label
                   htmlFor="inflationRate"
@@ -156,7 +156,7 @@ export default function Onboarding() {
                   className="w-full px-4 py-2 mt-2 border border-[#64788d] rounded-md focus:outline-none focus:ring-2 focus:ring-[#8b643b]"
                 />
               </div>
-
+  
               <div>
                 <label
                   htmlFor="investationRate"
@@ -175,7 +175,7 @@ export default function Onboarding() {
                   className="w-full px-4 py-2 mt-2 border border-[#64788d] rounded-md focus:outline-none focus:ring-2 focus:ring-[#8b643b]"
                 />
               </div>
-
+  
               <div>
                 <label
                   htmlFor="retirementAge"
@@ -192,7 +192,7 @@ export default function Onboarding() {
                   className="w-full px-4 py-2 mt-2 border border-[#64788d] rounded-md focus:outline-none focus:ring-2 focus:ring-[#8b643b] bg-[#f1e3a8]"
                 />
               </div>
-
+  
               <div className="flex justify-center">
                 <button
                   type="submit"
@@ -203,9 +203,9 @@ export default function Onboarding() {
               </div>
             </form>
           </div>
-
+  
           {/* Explanation Section (Right) */}
-          <div className="bg-white p-8 rounded-lg shadow-lg w-1/2">
+          <div className="bg-white p-8 rounded-lg shadow-lg w-full sm:w-1/2">
             <h2 className="text-3xl font-bold text-[#8b643b] text-center mb-6">
               What is the 4% Rule?
             </h2>
@@ -213,11 +213,11 @@ export default function Onboarding() {
               The <strong>4% rule</strong> is a retirement planning guideline
               suggesting that you can withdraw 4% of your retirement savings
               each year, adjusted for inflation, without running out of money
-              for at least 30 years. For example, if you have saved $1,000,000
-              for retirement, you could withdraw $40,000 per year (4% of
-              $1,000,000). This strategy assumes a well-balanced portfolio with
-              both stocks and bonds, and is designed to provide sustainable
-              income over the long term.
+              for at least 30 years. For example, if you have saved{" "}
+              {Rp(1000000)} for retirement, you could withdraw {Rp(40000)} per
+              year (4% of {Rp(1000000)}). This strategy assumes a well-balanced
+              portfolio with both stocks and bonds, and is designed to provide
+              sustainable income over the long term.
             </p>
             <br />
             <h3 className="text-xl font-semibold text-[#263140]">
@@ -234,7 +234,8 @@ export default function Onboarding() {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
+  
+  
 }

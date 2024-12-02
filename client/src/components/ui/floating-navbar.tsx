@@ -3,8 +3,6 @@ import React, { useState, useEffect } from "react";
 import {
   motion,
   AnimatePresence,
-  useScroll,
-  useMotionValueEvent,
 } from "framer-motion";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -18,34 +16,23 @@ export const FloatingNav = ({
   navItems = [], // Default to an empty array
   className,
 }: {
-  navItems?: { name: string; link: string; icon?: JSX.Element }[];
+  navItems?: { name: string; link: string; icon?: JSX.Element }[]; 
   className?: string;
 }) => {
-  const { scrollYProgress } = useScroll();
-  const [visible, setVisible] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false); 
   const avatar = Cookies.get("avatar"); 
-  // const name = Cookies.get("username"); 
   const token = Cookies.get("Authorization"); 
   const router = useRouter();
 
-  useMotionValueEvent(scrollYProgress, "change", (current) => {
-    if (typeof current === "number") {
-      const previous = scrollYProgress.getPrevious();
-      const direction = previous !== undefined ? current - previous : 0;
+  // Hilangkan logic scroll yang mempengaruhi visibilitas
+  // const { scrollYProgress } = useScroll();
+  // const [visible, setVisible] = useState(true);  // Tidak perlu lagi variabel visible
 
-      if (scrollYProgress.get() < 0.05) {
-        setVisible(true); // Show navbar when scroll is at the top
-      } else {
-        if (direction < 0) {
-          setVisible(true); // Show navbar when scrolling down
-        } else {
-          setVisible(false); // Hide navbar when scrolling up
-        }
-      }
-    }
-  });
+  // Menghilangkan event terkait scroll
+  // useMotionValueEvent(scrollYProgress, "change", (current) => {
+  //   // Logika scroll dihapus
+  // });
 
   const handleLogout = () => {
     Cookies.remove("Authorization");
@@ -66,8 +53,8 @@ export const FloatingNav = ({
   return (
     <AnimatePresence mode="wait">
       <motion.div
-        initial={{ opacity: 1, y: -100 }}
-        animate={{ y: visible ? 0 : -100, opacity: visible ? 1 : 0 }}
+        initial={{ opacity: 1, y: 0 }} // Navbar akan selalu tampil di posisi 0
+        animate={{ y: 0, opacity: 1 }} // Navbar selalu dalam keadaan terlihat
         transition={{ duration: 0.3 }}
         className={cn(
           "flex max-w-fit fixed top-2 inset-x-0 mx-auto border border-transparent dark:border-white/[0.5] rounded-full dark:bg-black bg-white shadow-lg z-[5000] pr-4 pl-6 py-2 items-center justify-between space-x-6",
