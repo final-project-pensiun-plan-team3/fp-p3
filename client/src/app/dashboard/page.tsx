@@ -1,5 +1,4 @@
 "use client";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Rp } from "@/helpers/currency";
 import {
@@ -12,6 +11,7 @@ import axios from "axios";
 import { SavingType } from "@/type";
 import AIRecommendationButton from "@/components/ui/gemini-button";
 import Example from "@/components/ui/BarLoader";
+import { FloatingNav } from "@/components/ui/floating-navbar";
 
 export default function Page() {
   const [data, setData] = useState(null);
@@ -82,6 +82,9 @@ export default function Page() {
     );
   if (!data) return <div>No data available</div>;
 
+  const totalSaving = dataSaving.reduce((a, b) => a + b.amountSaved, 0);
+   // console.log(totalSaving)
+
   const {
     currentAge,
     monthlySaving,
@@ -89,6 +92,15 @@ export default function Page() {
     inflationRate,
     investationRate,
   } = data;
+
+  const data2 = {
+    currentAge,
+    monthlySaving,
+    monthlySpending,
+    inflationRate,
+    investationRate,
+    totalSaving
+  }
 
   // Calculate final data using the helper function
   const finalData = calculateRetirementPlan(
@@ -99,15 +111,15 @@ export default function Page() {
     investationRate
   );
 
-  const totalSaving = dataSaving.reduce((a, b) => a + b.amountSaved, 0);
-  // console.log(totalSaving)
+ 
+ 
 
   // Calculate progress as percentage
   const progress = (totalSaving / finalData.targetSaving) * 100;
 
   return (
     <>
-      <Navbar />
+      <FloatingNav />
       <main className="max-w-[1100px] mx-auto">
         <div className="relative isolate overflow-hidden pt-16">
           {/* Header Section */}
@@ -129,7 +141,7 @@ export default function Page() {
               {/* Radial Progress Bar */}
               <div className="flex justify-center items-center py-6">
                 <div
-                  className="radial-progress text-blue-500"
+                  className="radial-progress text-navy-dark"
                   style={
                     {
                       "--value": progress,
@@ -222,10 +234,11 @@ export default function Page() {
               {/* <AIRecommendationButton data={data} /> */}
               <button
                 onClick={toggleModal}
-                className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                className="bg-navy-dark text-white px-4 py-2 rounded-md transition-all duration-300 ease-in-out transform hover:bg-navy-light hover:scale-105 hover:shadow-lg"
               >
                 Add Savings
               </button>
+
               {/* ganti jadi button add savings */}
             </div>
             <div className="mt-6 overflow-hidden border-t border-gray-100">
@@ -278,7 +291,7 @@ export default function Page() {
             </div>
           </div>
           <div>
-            <AIRecommendationButton data={data} />
+            <AIRecommendationButton data={data2} />
           </div>
         </div>
       </main>
