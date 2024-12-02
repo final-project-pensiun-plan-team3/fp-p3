@@ -3,9 +3,11 @@
 import Footer from "@/components/Footer";
 import { FloatingNav } from "@/components/ui/floating-navbar";
 import { TypewriterEffect } from "@/components/ui/typewriter-effect";
-import { WavyBackground } from "@/components/ui/wavy-background";
+// import { WavyBackground } from "@/components/ui/wavy-background";
 import Link from "next/link";
 import Cookies from "js-cookie";
+import dynamic from "next/dynamic";
+const WavyBackground = dynamic(() => import('@/components/ui/wavy-background').then((mod) => mod.WavyBackground), { ssr: false });
 
 export default function Home() {
   const words = [
@@ -15,7 +17,7 @@ export default function Home() {
     { text: "future" },
     { text: "with" },
     { text: "our" },
-    { text: "PensiunPlan.", className: "text-black-500 dark:text-navy-dark" },
+    { text: "PensiunPlan.", className: "text-black-500 dark:text-gold-classic" },
     { text: "Fill" },
     { text: "in" },
     { text: "your" },
@@ -52,8 +54,8 @@ export default function Home() {
         {/* Content inside WavyBackground */}
         <div className="flex items-center h-full justify-center">
           <div className="text-center text-white px-4">
-            <h1 className="text-[60px] font-bold mb-12">Hello {name}</h1> {/* H1 size updated to 75px */}
-            <TypewriterEffect className="mb-10 max-w-[950px] text-[30px]" words={words} /> {/* TypewriterEffect size updated to 16px */}
+            <h1 className="text-[60px] font-bold mb-12">Hello! {name}</h1> 
+            <TypewriterEffect className="mb-10 max-w-[950px] text-[30px]" words={words} /> 
             <Link
               href={"/onboarding"}
               className="bg-secondary text-white font-bold py-2 px-6 rounded hover:bg-blue-700 border-e-base-100 transition-all ease-[cubic-bezier(0.68,-0.55,0.27,1.55)] duration-300 text-lg"
