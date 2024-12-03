@@ -7,7 +7,7 @@ export default async function ProtectedOnBoard({
   children,
 }: Readonly<{ children: React.ReactNode }>): Promise<React.AwaitedReactNode> {
   const authCookie = cookies().get("Authorization");
-  console.log("🚀 ~ authCookie:", authCookie);
+  // console.log("🚀 ~ authCookie:", authCookie);
   if (!authCookie) {
     return redirect("/login");
   }

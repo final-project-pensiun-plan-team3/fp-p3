@@ -57,11 +57,10 @@ export default function Onboarding() {
       });
     } else {
       try {
-        const data = await axios.post(
+        await axios.post(
           `${process.env.NEXT_PUBLIC_BASE_URL}/apis/retirement`,
           formData
         );
-        console.log(data);
         Swal.fire("Success", "Data Successfully Updated", "success");
       } catch {
         Swal.fire("Error", "Something went wrong!", "error");

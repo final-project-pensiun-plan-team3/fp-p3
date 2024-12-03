@@ -39,7 +39,7 @@ export default function Page() {
   }
 
   useEffect(() => {
-    console.log(process.env.GOOGLE_CLIENT_ID, "<<<<<");
+    // console.log(process.env.GOOGLE_CLIENT_ID, "<<<<<");
     const buttonDiv = document.getElementById("buttonDiv") as HTMLElement; // Type assertion
     google.accounts.id.initialize({
       client_id:

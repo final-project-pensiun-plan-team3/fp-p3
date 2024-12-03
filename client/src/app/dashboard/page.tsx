@@ -12,6 +12,7 @@ import { SavingType } from "@/type";
 import AIRecommendationButton from "@/components/ui/gemini-button";
 import Example from "@/components/ui/BarLoader";
 import { FloatingNav } from "@/components/ui/floating-navbar";
+import Swal from "sweetalert2";
 
 export default function Page() {
   const [data, setData] = useState(null);
@@ -40,7 +41,7 @@ export default function Page() {
         }
       );
 
-      console.log(response.data, "response.data");
+      // console.log(response.data, "response.data");
       setDataSaving(response.data.savings);
       setTotalPages(response.data.totalPages);
     } catch (error) {
@@ -50,37 +51,42 @@ export default function Page() {
     }
   };
 
-   const getSavingForTotalSaving = async () => {
-     try {
-       const { data } = await axios.get(
-         `${process.env.NEXT_PUBLIC_BASE_URL}/apis/savings`
-       );
-       console.log("🚀 ~ getSavingForTotalSaving ~ data:", data);
+  const getSavingForTotalSaving = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/apis/savings`
+      );
+      // console.log("🚀 ~ getSavingForTotalSaving ~ data:", data);
 
-       setTotalSavings(data);
-     } catch (error) {
-       console.log(error);
-     } finally {
-       setLoading(false);
-     }
-   };
+      setTotalSavings(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmitSaving = async () => {
     try {
-      await axios.post(
-        "/apis/savings",
-        { amountSaved: savingAmount },
-      );
+      if(+savingAmount <= 0) {
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Amount must be greater than 0",
+        });
+      }
+        
+      await axios.post("/apis/savings", { amountSaved: savingAmount });
 
-
+     
       // RevalidateByPath("/dashboard")
       // Fetch ulang data saving setelah data disimpan
       // const newSavings = await axios.get(
       //   `${process.env.NEXT_PUBLIC_BASE_URL}/apis/savings/filter`,
       // );
       // setDataSaving(newSavings.data);
-        getSavingForTotalSaving();
-        getSaving();
+      getSavingForTotalSaving();
+      getSaving();
 
       // Tutup modal
       toggleModal();
@@ -187,7 +193,14 @@ export default function Page() {
               </div>
 
               {/* Radial Progress Bar */}
-              <div className="flex justify-center items-center py-6 w-full sm:w-auto">
+              <div className="relative flex justify-center items-center py-6 w-full sm:w-auto">
+                <div
+                  className="absolute border-2 border-[#808080] rounded-full"
+                  style={{
+                    width: "13rem",
+                    height: "13rem",
+                  }}
+                ></div>
                 <div
                   className="radial-progress text-[#001f3f] group transition-all hover:scale-110"
                   style={
@@ -290,10 +303,43 @@ export default function Page() {
         <div className="space-y-16 py-16 xl:space-y-20">
           <div>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex justify-between items-center h-auto align-middle">
-              <h2 className="mx-auto max-w-2xl text-base font-semibold text-gray-900 lg:mx-0 lg:max-w-none">
+              <h2 className="mx-auto max-w-2xl text-base font-semibold text-navy-dark lg:mx-0 lg:max-w-none">
                 Recent activity
               </h2>
               {/* <AIRecommendationButton data={data} /> */}
+              <div className="flex items-center space-x-4 p-4 rounded-lg">
+                <div className="flex items-center space-x-2">
+                  <label
+                    htmlFor="startDate"
+                    className="text-sm font-medium text-[#001f3f]"
+                  >
+                    Start Date:
+                  </label>
+                  <input
+                    type="date"
+                    id="startDate"
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                    className="px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div className="flex items-center space-x-2">
+                  <label
+                    htmlFor="endDate"
+                    className="text-sm font-medium text-[#001f3f]"
+                  >
+                    End Date:
+                  </label>
+                  <input
+                    type="date"
+                    id="endDate"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                    className="px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+
               <button
                 onClick={toggleModal}
                 className="bg-navy-dark text-white px-4 py-2 rounded-md transition-all duration-300 ease-in-out transform hover:bg-navy-light hover:scale-105 hover:shadow-lg"
@@ -303,40 +349,7 @@ export default function Page() {
 
               {/* ganti jadi button add savings */}
             </div>
-            <div className="flex justify-between items-center py-4">
-              <div>
-                <label htmlFor="startDate" className="mr-2">
-                  Start Date:
-                </label>
-                <input
-                  type="date"
-                  id="startDate"
-                  value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
-                />
-                <label htmlFor="endDate" className="ml-4 mr-2">
-                  End Date:
-                </label>
-                <input
-                  type="date"
-                  id="endDate"
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
-                />
-              </div>
-
-              <div className="flex items-center">
-                <button onClick={handlePrevPage} disabled={page === 1}>
-                  Prev
-                </button>
-                <span className="mx-2">
-                  {page} of {totalPages}
-                </span>
-                <button onClick={handleNextPage} disabled={page === totalPages}>
-                  Next
-                </button>
-              </div>
-            </div>
+            <div className="flex justify-between items-center py-4"></div>
             <div className="mt-6 overflow-hidden border-t border-gray-100">
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
@@ -382,6 +395,25 @@ export default function Page() {
                       ))}
                     </tbody>
                   </table>
+                  <div className="flex justify-center items-center bg-white p-4 rounded-lg">
+                    <button
+                      onClick={handlePrevPage}
+                      disabled={page === 1}
+                      className="px-4 py-2 bg-white text-[#001f3f] font-semibold rounded-lg hover:bg-[#f1f1f1] disabled:opacity-50"
+                    >
+                      Prev
+                    </button>
+                    <span className="mx-4 text-[#001f3f] font-medium">
+                      {page} of {totalPages}
+                    </span>
+                    <button
+                      onClick={handleNextPage}
+                      disabled={page === totalPages}
+                      className="px-4 py-2 bg-white text-[#001f3f] font-semibold rounded-lg hover:bg-[#f1f1f1] disabled:opacity-50"
+                    >
+                      Next
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -413,23 +445,25 @@ export default function Page() {
                 <input
                   id="amount"
                   type="number"
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm border-separate px-2"
                   value={savingAmount}
                   onChange={(e) => setSavingAmount(e.target.value)}
+                  placeholder="Enter your saving amount"
+                  min="0"
                   required
                 />
               </div>
-              <div className="flex justify-end space-x-4">
+              <div className="flex justify-between space-x-4">
                 <button
                   type="button"
-                  className="bg-gray-200 px-4 py-2 rounded-md"
+                  className="bg-gray-200 px-4 py-2 rounded-md flex-1"
                   onClick={toggleModal}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md flex-1"
                 >
                   Save
                 </button>

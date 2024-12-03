@@ -12,7 +12,7 @@ export class HttpError extends Error {
 }
 
 export function handleError(error: unknown) {
-  console.log(error);
+  // console.log(error);
 
   if (error instanceof ZodError) {
     return new Response(

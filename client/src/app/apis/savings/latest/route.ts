@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
     }
 
     const latestSaving = await Saving.getlatest();
-    console.log("🚀 ~ GET ~ latestSaving:", latestSaving);
+    // console.log("🚀 ~ GET ~ latestSaving:", latestSaving);
 
     if (!latestSaving) {
       throw new HttpError("No savings found for this user", 404);
