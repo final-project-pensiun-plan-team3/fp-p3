@@ -17,6 +17,7 @@ export default function Page() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [dataSaving, setDataSaving] = useState<SavingType[]>([]);
+  const [totalSavings, setTotalSavings] = useState<SavingType[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [savingAmount, setSavingAmount] = useState("");
   const [page, setPage] = useState(1);
@@ -25,22 +26,61 @@ export default function Page() {
   const [endDate, setEndDate] = useState("");
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
+  const getSaving = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/apis/savings/filter`,
+        {
+          params: {
+            page,
+            limit: 5,
+            startDate,
+            endDate,
+          },
+        }
+      );
+
+      console.log(response.data, "response.data");
+      setDataSaving(response.data.savings);
+      setTotalPages(response.data.totalPages);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+   const getSavingForTotalSaving = async () => {
+     try {
+       const { data } = await axios.get(
+         `${process.env.NEXT_PUBLIC_BASE_URL}/apis/savings`
+       );
+       console.log("🚀 ~ getSavingForTotalSaving ~ data:", data);
+
+       setTotalSavings(data);
+     } catch (error) {
+       console.log(error);
+     } finally {
+       setLoading(false);
+     }
+   };
+
   const handleSubmitSaving = async () => {
     try {
       await axios.post(
         "/apis/savings",
         { amountSaved: savingAmount },
-        { headers: { "x-UserId": "<USER_ID>" } } // Ganti <USER_ID> dengan ID pengguna Anda
       );
 
+
+      // RevalidateByPath("/dashboard")
       // Fetch ulang data saving setelah data disimpan
-      const newSavings = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/apis/savings`,
-        {
-          headers: { "x-UserId": "<USER_ID>" },
-        }
-      );
-      setDataSaving(newSavings.data);
+      // const newSavings = await axios.get(
+      //   `${process.env.NEXT_PUBLIC_BASE_URL}/apis/savings/filter`,
+      // );
+      // setDataSaving(newSavings.data);
+        getSavingForTotalSaving();
+        getSaving();
 
       // Tutup modal
       toggleModal();
@@ -48,33 +88,6 @@ export default function Page() {
       console.error("Error submitting saving:", error);
     }
   };
-
-  // const getSavings = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       `${process.env.NEXT_PUBLIC_BASE_URL}/apis/savings`,
-  //       {
-  //         headers: { "x-UserId": "<USER_ID>" },
-  //         params: {
-  //           page,
-  //           limit: 5,
-  //           startDate,
-  //           endDate,
-  //         },
-  //       }
-  //     );
-  //     setDataSaving(response.data.savings || []);
-  //     setTotalPages(response.data.totalPages);
-  //   } catch (error) {
-  //     console.error("Error fetching savings data:", error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getSavings();
-  // }, [page, startDate, endDate]);
 
   // Fetching both retirement data and savings data asynchronously
   useEffect(() => {
@@ -88,28 +101,8 @@ export default function Page() {
         console.log("🚀 ~ fetchData ~ error:", error);
       }
     };
-    const getSaving = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/apis/savings`,
-          {
-            params: {
-              page,
-              limit: 5,
-              startDate,
-              endDate,
-            },
-          }
-        );
-        console.log(response.data, "response.data");
-        setDataSaving(response.data.savings);
-        setTotalPages(response.data.totalPages);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
+
+    getSavingForTotalSaving();
     getSaving();
     fetchData();
   }, [page, startDate, endDate]);
@@ -138,7 +131,7 @@ export default function Page() {
     );
   if (!data) return <div>No data available</div>;
 
-  const totalSaving = dataSaving.reduce((a, b) => a + b.amountSaved, 0);
+  const totalSaving = totalSavings.reduce((a, b) => a + b.amountSaved, 0);
   // console.log(totalSaving)
 
   const {
