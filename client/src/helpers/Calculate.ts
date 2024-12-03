@@ -16,9 +16,18 @@ export function calculateRetirementPlan(
   monthlySpending: number,
   inflationRate: number,
   investmentRate: number
-): RetirementPlanOutput {
+) {
   // Convert monthly to annual
   // console.log(currentAge, monthlySaving, monthlySpending, inflationRate, investmentRate, 'disini');
+  if (
+    !currentAge ||
+    !monthlySaving ||
+    !monthlySpending ||
+    !inflationRate ||
+    !investmentRate
+  ) {
+    return 0;
+  }
   const annualSpending = monthlySpending * 12;
 
   // Calculate the target retirement fund based on the 4% rule (multiplied by 25)
@@ -36,10 +45,10 @@ export function calculateRetirementPlan(
     savings += monthlySaving * 12;
 
     // Apply investment return
-    savings *= (1 + investmentRate / 100);
+    savings *= 1 + investmentRate / 100;
 
     // Apply inflation to the future spending
-    futureSpending *= (1 + inflationRate / 100);
+    futureSpending *= 1 + inflationRate / 100;
 
     // Increase age by one year
     retirementAge++;
