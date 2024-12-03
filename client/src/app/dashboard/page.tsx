@@ -177,99 +177,114 @@ export default function Page() {
         <div className="relative isolate overflow-hidden pt-16">
           {/* Header Section */}
           <header className="pb-4 pt-6 sm:pb-6">
-            <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-6 px-4 sm:flex-nowrap sm:px-6 lg:px-8">
-              {/* Total Saving Box */}
-              <div className="overflow-hidden rounded-xl border border-gray-200">
-                <div className="flex items-center gap-x-4 border-b border-gray-900/5 bg-gray-50 p-6">
-                  <CurrencyDollarIcon className="size-6" />
-                  <div className="text-sm/6 font-medium text-gray-900">
-                    Total Saving
-                  </div>
-                </div>
-                <div className="px-6 py-4 text-sm/6 flex justify-center">
-                  <span className="font-semibold">{Rp(totalSaving)}</span>
-                </div>
-              </div>
+  <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-6 px-4 sm:px-6 lg:px-8">
+    {/* Total Saving Box */}
+    <div className="overflow-hidden rounded-xl border border-gray-200 group transition-all transform hover:scale-105 hover:shadow-2xl hover:opacity-90 w-full sm:w-auto">
+      <div className="flex items-center gap-x-4 border-b border-navy-dark/5 p-6">
+        <CurrencyDollarIcon className="size-6" />
+        <div className="text-sm/6 font-medium text-[#001f3f]">
+          Total Saving
+        </div>
+      </div>
+      <div className="px-6 py-4 text-sm/6 flex justify-center">
+        <span className="font-semibold text-[#001f3f]">
+          {Rp(totalSaving)}
+        </span>
+      </div>
+    </div>
 
-              {/* Radial Progress Bar */}
-              <div className="flex justify-center items-center py-6">
-                <div
-                  className="radial-progress text-navy-dark"
-                  style={
-                    {
-                      "--value": progress,
-                      "--size": "12rem",
-                      "--thickness": "5px",
-                    } as React.CSSProperties
-                  }
-                  role="progressbar"
-                  aria-valuenow={progress}
-                  aria-valuemin={0}
-                  aria-valuemax={100}
-                >
-                  <span className="text-2xl font-bold text-gray-800 animate-pulse">
-                    {progress.toFixed(2)} %
-                  </span>
-                </div>
-              </div>
+    {/* Radial Progress Bar */}
+    <div className="flex justify-center items-center py-6 w-full sm:w-auto">
+      <div
+        className="radial-progress text-[#001f3f] group transition-all hover:scale-110"
+        style={{
+          "--value": progress,
+          "--size": "12rem",
+          "--thickness": "5px",
+        } as React.CSSProperties}
+        role="progressbar"
+        aria-valuenow={progress}
+        aria-valuemin={0}
+        aria-valuemax={100}
+      >
+        <span className="text-2xl font-bold text-[#001f3f] animate-pulse group-hover:scale-125 transition-all">
+          {progress.toFixed(2)} %
+        </span>
+      </div>
+    </div>
 
-              {/* Target Saving Box */}
-              <div className="overflow-hidden rounded-xl border border-gray-200">
-                <div className="flex items-center gap-x-4 border-b border-gray-900/5 bg-gray-50 p-6">
-                  <CurrencyDollarIcon className="size-6" />
-                  <div className="text-sm/6 font-medium text-gray-900">
-                    Target Saving
-                  </div>
-                </div>
-                <div className="px-6 py-4 text-sm/6 flex justify-center">
-                  <span className="font-semibold">
-                    {Rp(finalData.targetSaving)}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </header>
+    {/* Target Saving Box */}
+    <div className="overflow-hidden rounded-xl border border-gray-200 group transition-all transform hover:scale-105 hover:shadow-2xl hover:opacity-90 w-full sm:w-auto">
+      <div className="flex items-center gap-x-4 border-b border-gray-900/5 p-6">
+        <CurrencyDollarIcon className="size-6" />
+        <div className="text-sm/6 font-medium text-[#001f3f]">
+          Target Saving
+        </div>
+      </div>
+      <div className="px-6 py-4 text-sm/6 flex justify-center">
+        <span className="font-semibold text-[#001f3f]">
+          {Rp(finalData.targetSaving)}
+        </span>
+      </div>
+    </div>
+  </div>
+</header>
+
 
           {/* Stats Section */}
           <div className="border-b border-b-gray-900/10 lg:border-t lg:border-t-gray-900/5">
-            <dl className="mx-auto grid max-w-7xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 lg:px-2 xl:px-0">
-              <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 border-t border-gray-900/5 px-4 py-10 sm:px-6 lg:border-t-0 xl:px-8">
-                <dt className="text-sm/6 font-medium text-gray-500">
+            <dl className="mx-auto grid max-w-7xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:px-2 xl:px-0 gap-6">
+              {/* Inflation Rate */}
+              <div className="relative flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 border-t border-gray-900/5 px-4 py-10 sm:px-6 lg:border-t-0 xl:px-8 group hover:scale-105 hover:shadow-lg hover:opacity-90 transition-all duration-300 bg-[#001f3f] text-white rounded-lg">
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#003366] opacity-60 rounded-lg"></div>
+                <dt className="relative text-sm font-medium text-[#ffffff]">
                   Inflation Rate
                 </dt>
-                <dd className="w-full flex-none text-3xl/10 font-medium tracking-tight text-gray-900">
+                <dd className="relative w-full flex-none text-3xl font-medium tracking-tight text-white">
                   {finalData.inflationRate} <span>%</span>
                 </dd>
               </div>
-              <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 border-t border-gray-900/5 px-4 py-10 sm:px-6 lg:border-t-0 xl:px-8">
-                <dt className="text-sm/6 font-medium text-gray-500">
+
+              {/* Investment Rate */}
+              <div className="relative flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 border-t border-gray-900/5 px-4 py-10 sm:px-6 lg:border-t-0 xl:px-8 group hover:scale-105 hover:shadow-lg hover:opacity-90 transition-all duration-300 bg-[#001f3f] text-white rounded-lg">
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#003366] opacity-60 rounded-lg"></div>
+                <dt className="relative text-sm font-medium text-[#ffffff]">
                   Investment Rate
                 </dt>
-                <dd className="w-full flex-none text-3xl/10 font-medium tracking-tight text-gray-900">
+                <dd className="relative w-full flex-none text-3xl font-medium tracking-tight text-white">
                   {finalData.investmentRate} <span>%</span>
                 </dd>
               </div>
-              <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 border-t border-gray-900/5 px-4 py-10 sm:px-6 lg:border-t-0 xl:px-8">
-                <dt className="text-sm/6 font-medium text-gray-500">
+
+              {/* Monthly Saving */}
+              <div className="relative flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 border-t border-gray-900/5 px-4 py-10 sm:px-6 lg:border-t-0 xl:px-8 group hover:scale-105 hover:shadow-lg hover:opacity-90 transition-all duration-300 bg-[#001f3f] text-white rounded-lg">
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#003366] opacity-60 rounded-lg"></div>
+                <dt className="relative text-sm font-medium text-[#ffffff]">
                   Monthly Saving
                 </dt>
-                <dd className="w-full flex-none text-3xl/10 font-medium tracking-tight text-gray-900">
+                <dd className="relative w-full flex-none text-3xl font-medium tracking-tight text-white">
                   {Rp(finalData.monthlySaving)}
                 </dd>
               </div>
-              <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 border-t border-gray-900/5 px-4 py-10 sm:px-6 lg:border-t-0 xl:px-8">
-                <dt className="text-sm/6 font-medium text-gray-500">
+
+              {/* Monthly Spending */}
+              <div className="relative flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 border-t border-gray-900/5 px-4 py-10 sm:px-6 lg:border-t-0 xl:px-8 group hover:scale-105 hover:shadow-lg hover:opacity-90 transition-all duration-300 bg-[#001f3f] text-white rounded-lg">
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#003366] opacity-60 rounded-lg"></div>
+                <dt className="relative text-sm font-medium text-[#ffffff]">
                   Monthly Spending
                 </dt>
-                <dd className="w-full flex-none text-3xl/10 font-medium tracking-tight text-gray-900">
+                <dd className="relative w-full flex-none text-3xl font-medium tracking-tight text-white">
                   {Rp(finalData.monthlySpending)}
                 </dd>
               </div>
-              <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 border-t border-gray-900/5 px-4 py-10 sm:px-6 lg:border-t-0 xl:px-8">
-                <dt className="text-sm/6 font-medium text-gray-500">
+
+              {/* Estimated Retirement Age */}
+              <div className="relative flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 border-t border-gray-900/5 px-4 py-10 sm:px-6 lg:border-t-0 xl:px-8 group hover:scale-105 hover:shadow-lg hover:opacity-90 transition-all duration-300 bg-[#001f3f] text-white rounded-lg">
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#003366] opacity-60 rounded-lg"></div>
+                <dt className="relative text-sm font-medium text-[#ffffff]">
                   Estimated Retirement Age
                 </dt>
-                <dd className="w-full flex-none text-3xl/10 font-medium tracking-tight text-gray-900">
+                <dd className="relative w-full flex-none text-3xl font-medium tracking-tight text-white">
                   {finalData.retirementAge} years old
                 </dd>
               </div>
