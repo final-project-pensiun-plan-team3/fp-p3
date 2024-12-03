@@ -19,6 +19,10 @@ export default function Page() {
   const [dataSaving, setDataSaving] = useState<SavingType[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [savingAmount, setSavingAmount] = useState("");
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
   const handleSubmitSaving = async () => {
@@ -45,6 +49,33 @@ export default function Page() {
     }
   };
 
+  // const getSavings = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `${process.env.NEXT_PUBLIC_BASE_URL}/apis/savings`,
+  //       {
+  //         headers: { "x-UserId": "<USER_ID>" },
+  //         params: {
+  //           page,
+  //           limit: 5,
+  //           startDate,
+  //           endDate,
+  //         },
+  //       }
+  //     );
+  //     setDataSaving(response.data.savings || []);
+  //     setTotalPages(response.data.totalPages);
+  //   } catch (error) {
+  //     console.error("Error fetching savings data:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getSavings();
+  // }, [page, startDate, endDate]);
+
   // Fetching both retirement data and savings data asynchronously
   useEffect(() => {
     const fetchData = async () => {
@@ -55,24 +86,49 @@ export default function Page() {
         setData(response.data);
       } catch (error) {
         console.log("🚀 ~ fetchData ~ error:", error);
-      } finally {
-        setLoading(false);
       }
     };
     const getSaving = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/apis/savings`
+          `${process.env.NEXT_PUBLIC_BASE_URL}/apis/savings`,
+          {
+            params: {
+              page,
+              limit: 5,
+              startDate,
+              endDate,
+            },
+          }
         );
         console.log(response.data, "response.data");
-        setDataSaving(response.data);
+        setDataSaving(response.data.savings || []);
+        setTotalPages(response.data.totalPages);
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
     getSaving();
     fetchData();
-  }, []);
+  }, [page, startDate, endDate]);
+
+  if (!Array.isArray(dataSaving)) {
+    setDataSaving([]);
+  }
+
+  const handlePrevPage = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (page < totalPages) {
+      setPage(page + 1);
+    }
+  };
 
   if (loading)
     return (
@@ -83,7 +139,7 @@ export default function Page() {
   if (!data) return <div>No data available</div>;
 
   const totalSaving = dataSaving.reduce((a, b) => a + b.amountSaved, 0);
-   // console.log(totalSaving)
+  // console.log(totalSaving)
 
   const {
     currentAge,
@@ -99,8 +155,8 @@ export default function Page() {
     monthlySpending,
     inflationRate,
     investationRate,
-    totalSaving
-  }
+    totalSaving,
+  };
 
   // Calculate final data using the helper function
   const finalData = calculateRetirementPlan(
@@ -110,9 +166,6 @@ export default function Page() {
     inflationRate,
     investationRate
   );
-
- 
- 
 
   // Calculate progress as percentage
   const progress = (totalSaving / finalData.targetSaving) * 100;
@@ -241,51 +294,89 @@ export default function Page() {
 
               {/* ganti jadi button add savings */}
             </div>
+            <div className="flex justify-between items-center py-4">
+              <div>
+                <label htmlFor="startDate" className="mr-2">
+                  Start Date:
+                </label>
+                <input
+                  type="date"
+                  id="startDate"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                />
+                <label htmlFor="endDate" className="ml-4 mr-2">
+                  End Date:
+                </label>
+                <input
+                  type="date"
+                  id="endDate"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                />
+              </div>
+
+              <div className="flex items-center">
+                <button onClick={handlePrevPage} disabled={page === 1}>
+                  Prev
+                </button>
+                <span className="mx-2">
+                  {page} of {totalPages}
+                </span>
+                <button onClick={handleNextPage} disabled={page === totalPages}>
+                  Next
+                </button>
+              </div>
+            </div>
             <div className="mt-6 overflow-hidden border-t border-gray-100">
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
-                  <table className="w-full text-left">
-                    <thead className="text-sm text-gray-900">
-                      <tr>
-                        <th className="bg-gray-50 border-gray-200 border-b py-2">
-                          Amount
-                        </th>
-                        <th className="bg-gray-50 border-gray-200 border-b py-2">
-                          Transaction Date
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {dataSaving.map((transaction, index) => (
-                        <tr key={transaction._id.toString()}>
-                          <td className="relative py-5 pr-6">
-                            <div className="flex gap-x-6">
-                              <div className="text-gray-900 text-sm">
-                                {index + 1}
-                              </div>
-                              <ArrowUpCircleIcon
-                                aria-hidden="true"
-                                className="hidden h-6 w-5 flex-none text-gray-400 sm:block"
-                              />
-                              <div className="flex-auto">
-                                <div className="flex items-start gap-x-3">
-                                  <div className="text-sm font-medium text-gray-900">
-                                    Rp{" "}
-                                    {transaction.amountSaved.toLocaleString()}
+                  {Array.isArray(dataSaving) && dataSaving.length > 0 ? (
+                    <table className="w-full text-left">
+                      <thead className="text-sm text-gray-900">
+                        <tr>
+                          <th className="bg-gray-50 border-gray-200 border-b py-2">
+                            Amount
+                          </th>
+                          <th className="bg-gray-50 border-gray-200 border-b py-2">
+                            Transaction Date
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {dataSaving.map((transaction, index) => (
+                          <tr key={transaction._id.toString()}>
+                            <td className="relative py-5 pr-6">
+                              <div className="flex gap-x-6">
+                                <div className="text-gray-900 text-sm">
+                                  {index + 1}
+                                </div>
+                                <ArrowUpCircleIcon
+                                  aria-hidden="true"
+                                  className="hidden h-6 w-5 flex-none text-gray-400 sm:block"
+                                />
+                                <div className="flex-auto">
+                                  <div className="flex items-start gap-x-3">
+                                    <div className="text-sm font-medium text-gray-900">
+                                      Rp{" "}
+                                      {transaction.amountSaved.toLocaleString()}
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          </td>
-                          <td className="py-5 text-sm text-gray-900">
-                            {new Date(
-                              transaction.createdAt
-                            ).toLocaleDateString()}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                            </td>
+                            <td className="py-5 text-sm text-gray-900">
+                              {new Date(
+                                transaction.createdAt
+                              ).toLocaleDateString()}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  ) : (
+                    <div>No data available</div>
+                  )}
                 </div>
               </div>
             </div>
