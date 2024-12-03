@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { handleError } from "@/lib/errorhandler";
-import { param } from "framer-motion/client";
+// import { param } from "framer-motion/client";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -19,8 +19,8 @@ export async function POST(request: NextRequest) {
 		} = body;
 	
 
-		console.log("🚀 ~ POST ~ request.body", body);
-		console.log(param, "param");
+		// console.log("🚀 ~ POST ~ request.body", body);
+		// console.log(param, "param");
 		const date = new Date();
 
 		const prompt = `

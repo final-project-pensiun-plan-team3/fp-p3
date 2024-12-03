@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(url.searchParams.get("limit") || "10");
     const startDate = url.searchParams.get("startDate");
     const endDate = url.searchParams.get("endDate");
-    console.log("🚀 ~ GET ~ UserId:", UserId);
+    // console.log("🚀 ~ GET ~ UserId:", UserId);
     
     if (!UserId || typeof UserId !== "string") {
       throw new HttpError("User ID is required", 400);

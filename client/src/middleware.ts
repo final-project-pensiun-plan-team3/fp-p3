@@ -10,13 +10,13 @@ export async function middleware(request: NextRequest) {
     const path = request.nextUrl.pathname;
 
     // If user is logged in and tries to access `/login`, redirect them to `/`
-    console.log("aaa");
-    console.log(path);
+    // console.log("aaa");
+    // console.log(path);
     
     if (authCookie && path === "/login") {
       return NextResponse.redirect(new URL("/", request.url));
     }
-    console.log("bbb");
+    // console.log("bbb");
 
     // If user is not logged in and tries to access `/login`, allow access
     if (!authCookie && path === "/login") {
@@ -25,18 +25,18 @@ export async function middleware(request: NextRequest) {
 
     // If user is not logged in and tries to access protected routes, redirect to `/login`
     
-    console.log("🚀 ~ middleware ~ authCookie:", authCookie)
+    // console.log("🚀 ~ middleware ~ authCookie:", authCookie)
     if (!authCookie) {
       return NextResponse.redirect(new URL("/login", request.url));
     }
 
     // Validate token
-    console.log("ccc");
+    // console.log("ccc");
     
     const token = authCookie.value;
     const secret = new TextEncoder().encode(process.env.JWT_SECRET);
     
-    console.log("ddd");
+    // console.log("ddd");
     try {
       const { payload } = await jose.jwtVerify<{ UserId: string }>(
         token,

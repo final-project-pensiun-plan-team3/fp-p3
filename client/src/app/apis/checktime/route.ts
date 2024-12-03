@@ -32,9 +32,9 @@ export async function GET(request:NextRequest) {
             console.log("🚀 ~ data.forEach ~ error:", error)
             
         }
-        console.log(
-          `The gap is 30 days or more for createdAt: ${createdAtDate}`
-        );
+        // console.log(
+        //   `The gap is 30 days or more for createdAt: ${createdAtDate}`
+        // );
         // Perform your logic here
       }
     }
