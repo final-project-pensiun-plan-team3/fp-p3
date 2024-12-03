@@ -19,6 +19,10 @@ export default function Page() {
   const [dataSaving, setDataSaving] = useState<SavingType[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [savingAmount, setSavingAmount] = useState("");
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
   const handleSubmitSaving = async () => {
@@ -45,6 +49,33 @@ export default function Page() {
     }
   };
 
+  // const getSavings = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `${process.env.NEXT_PUBLIC_BASE_URL}/apis/savings`,
+  //       {
+  //         headers: { "x-UserId": "<USER_ID>" },
+  //         params: {
+  //           page,
+  //           limit: 5,
+  //           startDate,
+  //           endDate,
+  //         },
+  //       }
+  //     );
+  //     setDataSaving(response.data.savings || []);
+  //     setTotalPages(response.data.totalPages);
+  //   } catch (error) {
+  //     console.error("Error fetching savings data:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getSavings();
+  // }, [page, startDate, endDate]);
+
   // Fetching both retirement data and savings data asynchronously
   useEffect(() => {
     const fetchData = async () => {
@@ -55,24 +86,49 @@ export default function Page() {
         setData(response.data);
       } catch (error) {
         console.log("🚀 ~ fetchData ~ error:", error);
-      } finally {
-        setLoading(false);
       }
     };
     const getSaving = async () => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/apis/savings`
+          `${process.env.NEXT_PUBLIC_BASE_URL}/apis/savings`,
+          {
+            params: {
+              page,
+              limit: 5,
+              startDate,
+              endDate,
+            },
+          }
         );
         console.log(response.data, "response.data");
-        setDataSaving(response.data);
+        setDataSaving(response.data.savings);
+        setTotalPages(response.data.totalPages);
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
     getSaving();
     fetchData();
-  }, []);
+  }, [page, startDate, endDate]);
+
+  if (!Array.isArray(dataSaving)) {
+    setDataSaving([]);
+  }
+
+  const handlePrevPage = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (page < totalPages) {
+      setPage(page + 1);
+    }
+  };
 
   if (loading)
     return (
@@ -121,59 +177,60 @@ export default function Page() {
         <div className="relative isolate overflow-hidden pt-16">
           {/* Header Section */}
           <header className="pb-4 pt-6 sm:pb-6">
-  <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-6 px-4 sm:px-6 lg:px-8">
-    {/* Total Saving Box */}
-    <div className="overflow-hidden rounded-xl border border-gray-200 group transition-all transform hover:scale-105 hover:shadow-2xl hover:opacity-90 w-full sm:w-auto">
-      <div className="flex items-center gap-x-4 border-b border-navy-dark/5 p-6">
-        <CurrencyDollarIcon className="size-6" />
-        <div className="text-sm/6 font-medium text-[#001f3f]">
-          Total Saving
-        </div>
-      </div>
-      <div className="px-6 py-4 text-sm/6 flex justify-center">
-        <span className="font-semibold text-[#001f3f]">
-          {Rp(totalSaving)}
-        </span>
-      </div>
-    </div>
+            <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-6 px-4 sm:px-6 lg:px-8">
+              {/* Total Saving Box */}
+              <div className="overflow-hidden rounded-xl border border-gray-200 group transition-all transform hover:scale-105 hover:shadow-2xl hover:opacity-90 w-full sm:w-auto">
+                <div className="flex items-center gap-x-4 border-b border-navy-dark/5 p-6">
+                  <CurrencyDollarIcon className="size-6" />
+                  <div className="text-sm/6 font-medium text-[#001f3f]">
+                    Total Saving
+                  </div>
+                </div>
+                <div className="px-6 py-4 text-sm/6 flex justify-center">
+                  <span className="font-semibold text-[#001f3f]">
+                    {Rp(totalSaving)}
+                  </span>
+                </div>
+              </div>
 
-    {/* Radial Progress Bar */}
-    <div className="flex justify-center items-center py-6 w-full sm:w-auto">
-      <div
-        className="radial-progress text-[#001f3f] group transition-all hover:scale-110"
-        style={{
-          "--value": progress,
-          "--size": "12rem",
-          "--thickness": "5px",
-        } as React.CSSProperties}
-        role="progressbar"
-        aria-valuenow={progress}
-        aria-valuemin={0}
-        aria-valuemax={100}
-      >
-        <span className="text-2xl font-bold text-[#001f3f] animate-pulse group-hover:scale-125 transition-all">
-          {progress.toFixed(2)} %
-        </span>
-      </div>
-    </div>
+              {/* Radial Progress Bar */}
+              <div className="flex justify-center items-center py-6 w-full sm:w-auto">
+                <div
+                  className="radial-progress text-[#001f3f] group transition-all hover:scale-110"
+                  style={
+                    {
+                      "--value": progress,
+                      "--size": "12rem",
+                      "--thickness": "5px",
+                    } as React.CSSProperties
+                  }
+                  role="progressbar"
+                  aria-valuenow={progress}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                >
+                  <span className="text-2xl font-bold text-[#001f3f] animate-pulse group-hover:scale-125 transition-all">
+                    {progress.toFixed(2)} %
+                  </span>
+                </div>
+              </div>
 
-    {/* Target Saving Box */}
-    <div className="overflow-hidden rounded-xl border border-gray-200 group transition-all transform hover:scale-105 hover:shadow-2xl hover:opacity-90 w-full sm:w-auto">
-      <div className="flex items-center gap-x-4 border-b border-gray-900/5 p-6">
-        <CurrencyDollarIcon className="size-6" />
-        <div className="text-sm/6 font-medium text-[#001f3f]">
-          Target Saving
-        </div>
-      </div>
-      <div className="px-6 py-4 text-sm/6 flex justify-center">
-        <span className="font-semibold text-[#001f3f]">
-          {Rp(finalData.targetSaving)}
-        </span>
-      </div>
-    </div>
-  </div>
-</header>
-
+              {/* Target Saving Box */}
+              <div className="overflow-hidden rounded-xl border border-gray-200 group transition-all transform hover:scale-105 hover:shadow-2xl hover:opacity-90 w-full sm:w-auto">
+                <div className="flex items-center gap-x-4 border-b border-gray-900/5 p-6">
+                  <CurrencyDollarIcon className="size-6" />
+                  <div className="text-sm/6 font-medium text-[#001f3f]">
+                    Target Saving
+                  </div>
+                </div>
+                <div className="px-6 py-4 text-sm/6 flex justify-center">
+                  <span className="font-semibold text-[#001f3f]">
+                    {Rp(finalData.targetSaving)}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </header>
 
           {/* Stats Section */}
           <div className="border-b border-b-gray-900/10 lg:border-t lg:border-t-gray-900/5">
@@ -252,6 +309,40 @@ export default function Page() {
               </button>
 
               {/* ganti jadi button add savings */}
+            </div>
+            <div className="flex justify-between items-center py-4">
+              <div>
+                <label htmlFor="startDate" className="mr-2">
+                  Start Date:
+                </label>
+                <input
+                  type="date"
+                  id="startDate"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                />
+                <label htmlFor="endDate" className="ml-4 mr-2">
+                  End Date:
+                </label>
+                <input
+                  type="date"
+                  id="endDate"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                />
+              </div>
+
+              <div className="flex items-center">
+                <button onClick={handlePrevPage} disabled={page === 1}>
+                  Prev
+                </button>
+                <span className="mx-2">
+                  {page} of {totalPages}
+                </span>
+                <button onClick={handleNextPage} disabled={page === totalPages}>
+                  Next
+                </button>
+              </div>
             </div>
             <div className="mt-6 overflow-hidden border-t border-gray-100">
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

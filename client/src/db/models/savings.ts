@@ -4,16 +4,35 @@ import { ObjectId } from "mongodb";
 export class Saving {
   static db = database.collection("Savings");
 
-  static async getData(userId: string) {
+  static async getData(
+    userId: string,
+    page: number = 1,
+    limit: number = 5,
+    dateFilter: any = {}
+  ) {
     if (!ObjectId.isValid(userId)) {
       throw new Error("Invalid User ID format");
     }
     const objectId = new ObjectId(userId);
     // console.log(objectId);
-    return await this.db
-      .find({ UserId: objectId })
+    const query = { UserId: objectId, ...dateFilter };
+    const skip = (page - 1) * limit;
+
+    const savings = await this.db
+      .find(query)
       .sort("createdAt", -1)
+      .skip(skip)
+      .limit(limit)
       .toArray();
+
+    const totalCount = await this.db.countDocuments(query);
+
+    return {
+      savings,
+      totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      currentPage: page,
+    };
   }
 
   static async create(data: {
@@ -37,30 +56,30 @@ export class Saving {
 
       .aggregate([
         {
-          $sort: { createdAt: -1 }, 
+          $sort: { createdAt: -1 },
         },
         {
           $group: {
-            _id: "$UserId", 
+            _id: "$UserId",
             latest: { $first: "$$ROOT" },
           },
         },
         {
           $lookup: {
-            from: "Users", 
+            from: "Users",
             localField: "_id",
-            foreignField: "_id", 
-            as: "user", 
+            foreignField: "_id",
+            as: "user",
           },
         },
         {
-          $unwind: "$user", 
+          $unwind: "$user",
         },
         {
           $project: {
             _id: 0,
-            user: 1, 
-            latest: 1, 
+            user: 1,
+            latest: 1,
           },
         },
       ])
