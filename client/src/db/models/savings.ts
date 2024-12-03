@@ -1,14 +1,15 @@
+import { DateFilter } from "@/type";
 import { database } from "../config";
 import { ObjectId } from "mongodb";
 
 export class Saving {
   static db = database.collection("Savings");
 
-  static async getData(
+  static async getDataFilter(
     userId: string,
     page: number = 1,
     limit: number = 5,
-    dateFilter: any = {}
+    dateFilter: DateFilter
   ) {
     if (!ObjectId.isValid(userId)) {
       throw new Error("Invalid User ID format");
@@ -45,6 +46,13 @@ export class Saving {
     }
     const objectId = new ObjectId(data.UserId);
     return await this.db.insertOne({ ...data, UserId: objectId });
+  }
+
+  static async getData(UserId:string){
+    const data = await this.db.find({UserId:new ObjectId(UserId)}).toArray()
+    // console.log("🚀 ~ Saving ~ getData ~ data:", data)
+
+    return data
   }
 
   static async getlatest() {

@@ -18,3 +18,10 @@ export type SavingType = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+export type DateFilter = {
+  createdAt?: {
+    $gte?: Date;
+    $lte?: Date;
+  };
+};
