@@ -102,7 +102,7 @@ export default function Page() {
           }
         );
         console.log(response.data, "response.data");
-        setDataSaving(response.data.savings || []);
+        setDataSaving(response.data.savings);
         setTotalPages(response.data.totalPages);
       } catch (error) {
         console.log(error);
@@ -177,59 +177,60 @@ export default function Page() {
         <div className="relative isolate overflow-hidden pt-16">
           {/* Header Section */}
           <header className="pb-4 pt-6 sm:pb-6">
-  <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-6 px-4 sm:px-6 lg:px-8">
-    {/* Total Saving Box */}
-    <div className="overflow-hidden rounded-xl border border-gray-200 group transition-all transform hover:scale-105 hover:shadow-2xl hover:opacity-90 w-full sm:w-auto">
-      <div className="flex items-center gap-x-4 border-b border-navy-dark/5 p-6">
-        <CurrencyDollarIcon className="size-6" />
-        <div className="text-sm/6 font-medium text-[#001f3f]">
-          Total Saving
-        </div>
-      </div>
-      <div className="px-6 py-4 text-sm/6 flex justify-center">
-        <span className="font-semibold text-[#001f3f]">
-          {Rp(totalSaving)}
-        </span>
-      </div>
-    </div>
+            <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-6 px-4 sm:px-6 lg:px-8">
+              {/* Total Saving Box */}
+              <div className="overflow-hidden rounded-xl border border-gray-200 group transition-all transform hover:scale-105 hover:shadow-2xl hover:opacity-90 w-full sm:w-auto">
+                <div className="flex items-center gap-x-4 border-b border-navy-dark/5 p-6">
+                  <CurrencyDollarIcon className="size-6" />
+                  <div className="text-sm/6 font-medium text-[#001f3f]">
+                    Total Saving
+                  </div>
+                </div>
+                <div className="px-6 py-4 text-sm/6 flex justify-center">
+                  <span className="font-semibold text-[#001f3f]">
+                    {Rp(totalSaving)}
+                  </span>
+                </div>
+              </div>
 
-    {/* Radial Progress Bar */}
-    <div className="flex justify-center items-center py-6 w-full sm:w-auto">
-      <div
-        className="radial-progress text-[#001f3f] group transition-all hover:scale-110"
-        style={{
-          "--value": progress,
-          "--size": "12rem",
-          "--thickness": "5px",
-        } as React.CSSProperties}
-        role="progressbar"
-        aria-valuenow={progress}
-        aria-valuemin={0}
-        aria-valuemax={100}
-      >
-        <span className="text-2xl font-bold text-[#001f3f] animate-pulse group-hover:scale-125 transition-all">
-          {progress.toFixed(2)} %
-        </span>
-      </div>
-    </div>
+              {/* Radial Progress Bar */}
+              <div className="flex justify-center items-center py-6 w-full sm:w-auto">
+                <div
+                  className="radial-progress text-[#001f3f] group transition-all hover:scale-110"
+                  style={
+                    {
+                      "--value": progress,
+                      "--size": "12rem",
+                      "--thickness": "5px",
+                    } as React.CSSProperties
+                  }
+                  role="progressbar"
+                  aria-valuenow={progress}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                >
+                  <span className="text-2xl font-bold text-[#001f3f] animate-pulse group-hover:scale-125 transition-all">
+                    {progress.toFixed(2)} %
+                  </span>
+                </div>
+              </div>
 
-    {/* Target Saving Box */}
-    <div className="overflow-hidden rounded-xl border border-gray-200 group transition-all transform hover:scale-105 hover:shadow-2xl hover:opacity-90 w-full sm:w-auto">
-      <div className="flex items-center gap-x-4 border-b border-gray-900/5 p-6">
-        <CurrencyDollarIcon className="size-6" />
-        <div className="text-sm/6 font-medium text-[#001f3f]">
-          Target Saving
-        </div>
-      </div>
-      <div className="px-6 py-4 text-sm/6 flex justify-center">
-        <span className="font-semibold text-[#001f3f]">
-          {Rp(finalData.targetSaving)}
-        </span>
-      </div>
-    </div>
-  </div>
-</header>
-
+              {/* Target Saving Box */}
+              <div className="overflow-hidden rounded-xl border border-gray-200 group transition-all transform hover:scale-105 hover:shadow-2xl hover:opacity-90 w-full sm:w-auto">
+                <div className="flex items-center gap-x-4 border-b border-gray-900/5 p-6">
+                  <CurrencyDollarIcon className="size-6" />
+                  <div className="text-sm/6 font-medium text-[#001f3f]">
+                    Target Saving
+                  </div>
+                </div>
+                <div className="px-6 py-4 text-sm/6 flex justify-center">
+                  <span className="font-semibold text-[#001f3f]">
+                    {Rp(finalData.targetSaving)}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </header>
 
           {/* Stats Section */}
           <div className="border-b border-b-gray-900/10 lg:border-t lg:border-t-gray-900/5">
@@ -346,52 +347,48 @@ export default function Page() {
             <div className="mt-6 overflow-hidden border-t border-gray-100">
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
-                  {Array.isArray(dataSaving) && dataSaving.length > 0 ? (
-                    <table className="w-full text-left">
-                      <thead className="text-sm text-gray-900">
-                        <tr>
-                          <th className="bg-gray-50 border-gray-200 border-b py-2">
-                            Amount
-                          </th>
-                          <th className="bg-gray-50 border-gray-200 border-b py-2">
-                            Transaction Date
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {dataSaving.map((transaction, index) => (
-                          <tr key={transaction._id.toString()}>
-                            <td className="relative py-5 pr-6">
-                              <div className="flex gap-x-6">
-                                <div className="text-gray-900 text-sm">
-                                  {index + 1}
-                                </div>
-                                <ArrowUpCircleIcon
-                                  aria-hidden="true"
-                                  className="hidden h-6 w-5 flex-none text-gray-400 sm:block"
-                                />
-                                <div className="flex-auto">
-                                  <div className="flex items-start gap-x-3">
-                                    <div className="text-sm font-medium text-gray-900">
-                                      Rp{" "}
-                                      {transaction.amountSaved.toLocaleString()}
-                                    </div>
+                  <table className="w-full text-left">
+                    <thead className="text-sm text-gray-900">
+                      <tr>
+                        <th className="bg-gray-50 border-gray-200 border-b py-2">
+                          Amount
+                        </th>
+                        <th className="bg-gray-50 border-gray-200 border-b py-2">
+                          Transaction Date
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {dataSaving.map((transaction, index) => (
+                        <tr key={transaction._id.toString()}>
+                          <td className="relative py-5 pr-6">
+                            <div className="flex gap-x-6">
+                              <div className="text-gray-900 text-sm">
+                                {index + 1}
+                              </div>
+                              <ArrowUpCircleIcon
+                                aria-hidden="true"
+                                className="hidden h-6 w-5 flex-none text-gray-400 sm:block"
+                              />
+                              <div className="flex-auto">
+                                <div className="flex items-start gap-x-3">
+                                  <div className="text-sm font-medium text-gray-900">
+                                    Rp{" "}
+                                    {transaction.amountSaved.toLocaleString()}
                                   </div>
                                 </div>
                               </div>
-                            </td>
-                            <td className="py-5 text-sm text-gray-900">
-                              {new Date(
-                                transaction.createdAt
-                              ).toLocaleDateString()}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  ) : (
-                    <div>No data available</div>
-                  )}
+                            </div>
+                          </td>
+                          <td className="py-5 text-sm text-gray-900">
+                            {new Date(
+                              transaction.createdAt
+                            ).toLocaleDateString()}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
