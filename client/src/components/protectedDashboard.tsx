@@ -10,9 +10,12 @@ export async function ProtectedDashboard({
   if (!authCookie) {
     redirect("/login");
   }
-  const { data } = await axios.get("http://localhost:3000/apis/retirement", {
-    headers: { Cookie: cookies().toString() },
-  });
+  const { data } = await axios.get(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/apis/retirement`,
+    {
+      headers: { Cookie: cookies().toString() },
+    }
+  );
   if (!data) {
     return redirect("/onboarding");
   }

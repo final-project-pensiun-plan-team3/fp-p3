@@ -24,7 +24,7 @@ export async function GET(request:NextRequest) {
 
       if (daysDiff < 31 && daysDiff >= 30) {
         try {
-            await axios.post("http://localhost:3000/apis/send", {
+            await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/apis/send`, {
               email: e.user.email,
               username: e.user.username,
             });
