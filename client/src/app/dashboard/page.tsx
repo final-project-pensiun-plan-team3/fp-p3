@@ -96,18 +96,18 @@ export default function Page() {
   };
 
   // Fetching both retirement data and savings data asynchronously
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/apis/retirement`
-        );
-        setData(response.data);
-      } catch (error) {
-        console.log("🚀 ~ fetchData ~ error:", error);
-      }
-    };
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/apis/retirement`
+      );
+      setData(response.data);
+    } catch (error) {
+      console.log("🚀 ~ fetchData ~ error:", error);
+    }
+  };
 
+  useEffect(() => {
     getSavingForTotalSaving();
     getSaving();
     fetchData();
