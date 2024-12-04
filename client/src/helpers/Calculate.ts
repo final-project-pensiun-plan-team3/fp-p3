@@ -16,7 +16,7 @@ export function calculateRetirementPlan(
   monthlySpending: number,
   inflationRate: number,
   investmentRate: number
-) {
+): RetirementPlanOutput {
   // Convert monthly to annual
   // console.log(currentAge, monthlySaving, monthlySpending, inflationRate, investmentRate, 'disini');
   if (
@@ -26,7 +26,17 @@ export function calculateRetirementPlan(
     !inflationRate ||
     !investmentRate
   ) {
-    return 0;
+    return {
+      totalSaving: 0,
+      progress: 0,
+      targetSaving: 0,
+      futureMonthlySpending: 0, // Convert back to monthly
+      inflationRate: 0,
+      investmentRate: 0,
+      monthlySaving:0,
+      monthlySpending: 0,
+      retirementAge: 0,
+    };
   }
   const annualSpending = monthlySpending * 12;
 
