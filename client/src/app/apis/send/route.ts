@@ -6,11 +6,12 @@ import { Resend } from "resend";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: NextRequest) {
-  const CRON_PASS = request.headers.get("CRON_PASS");
+  const { email, username, CRON_PASS } = await request.json();
   if (CRON_PASS != process.env.CRON_PASS) {
+    console.log("canot lah 2");
+    
     return redirect("/");
   }
-  const { email, username } = await request.json();
   // console.log("🚀 ~ POST ~ email:", email)
   try {
     const data = await resend.emails.send({

@@ -8,6 +8,8 @@ export async function GET(request:NextRequest) {
   // throw new Error("aaa")
   const CRON_PASS = request.headers.get("CRON_PASS")
   if (CRON_PASS != process.env.CRON_PASS) {
+    // console.log("canot lah");
+    
     return redirect("/")
   }
   
@@ -19,14 +21,15 @@ export async function GET(request:NextRequest) {
       const createdAtDate = new Date(e.latest.createdAt); // Parse createdAt date
       const timeDiff = currentDate.getTime() - createdAtDate.getTime(); // Difference in milliseconds
       const daysDiff = timeDiff / (1000 * 60 * 60 * 24); // Convert to days
-      // console.log("🚀 ~ data.forEach ~ daysDiff:", daysDiff)
       // console.log("🚀 ~ data.forEach ~ daysDiff:", daysDiff,e.user)
-
+      
       if (daysDiff < 31 && daysDiff >= 30) {
+        console.log("🚀 ~ data.forEach ~ daysDiff:", daysDiff,e)
         try {
             await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/apis/send`, {
               email: e.user.email,
               username: e.user.username,
+              CRON_PASS:CRON_PASS
             });
         } catch (error) {
             console.log("🚀 ~ data.forEach ~ error:", error)
