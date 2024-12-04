@@ -1,13 +1,16 @@
 "use client";
 
+import { revalidateBypath } from "@/action";
 import { FloatingNav } from "@/components/ui/floating-navbar";
 import { calculateRetirementPlan } from "@/helpers/Calculate";
 import { Rp } from "@/helpers/currency";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 export default function Onboarding() {
+  const router = useRouter()
   const [formData, setFormData] = useState({
     currentAge: "",
     monthlySaving: "",
@@ -48,12 +51,19 @@ export default function Onboarding() {
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
+    if (+formData.currentAge < 0) {
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Current Age must be greater than 0",
+      });
+    }
 
     if (retirementAge !== null && retirementAge <= 0) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Retirement is not possible because your monthly spending is greater than your monthly saving.",
+        text: "Retirement Age must is not possible because your monthly spending is greater than your monthly saving.",
       });
     } else {
       try {
@@ -62,7 +72,10 @@ export default function Onboarding() {
           formData
         );
         Swal.fire("Success", "Data Successfully Updated", "success");
-      } catch {
+        await revalidateBypath("/dashboard")
+        router.push("/dashboard")
+      } catch (error) {
+        console.log("🚀 ~ handleSubmit ~ error:", error)
         Swal.fire("Error", "Something went wrong!", "error");
       }
     }
