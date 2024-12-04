@@ -8,7 +8,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function POST(request: NextRequest) {
   const { email, username, CRON_PASS } = await request.json();
   if (CRON_PASS != process.env.CRON_PASS) {
-    console.log("canot lah 2");
+    // console.log("canot lah 2");
     
     return redirect("/");
   }
