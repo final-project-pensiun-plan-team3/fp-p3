@@ -48,11 +48,11 @@ export class Saving {
     return await this.db.insertOne({ ...data, UserId: objectId });
   }
 
-  static async getData(UserId:string){
-    const data = await this.db.find({UserId:new ObjectId(UserId)}).toArray()
+  static async getData(UserId: string) {
+    const data = await this.db.find({ UserId: new ObjectId(UserId) }).toArray();
     // console.log("🚀 ~ Saving ~ getData ~ data:", data)
 
-    return data
+    return data;
   }
 
   static async getlatest() {
@@ -93,6 +93,20 @@ export class Saving {
       ])
       .toArray();
   }
+
+  static async deleteSaving(UserId: string, SavingId: string) {
+    return await this.db.deleteOne({
+      UserId: new ObjectId(UserId),
+      _id: new ObjectId(SavingId),
+    });
+  }
+
+  // static async getData(UserId: string) {
+  //   const data = await this.db.find({ UserId: new ObjectId(UserId) }).toArray();
+  //   // console.log("🚀 ~ Saving ~ getData ~ data:", data)
+
+  //   return data;
+  // }
 
   // static async update(
   // 	UserId: string,
