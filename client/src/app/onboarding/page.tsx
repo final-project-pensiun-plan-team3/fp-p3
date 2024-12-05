@@ -51,11 +51,17 @@ export default function Onboarding() {
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    if (+formData.currentAge < 0) {
+    if (
+      +formData.currentAge < 0 ||
+      +formData.monthlySaving <= 0 ||
+      +formData.monthlySpending <= 0 ||
+      +formData.inflationRate <= 0 ||
+      +formData.investationRate <= 0
+    ) {
       return Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Current Age must be greater than 0",
+        text: "Numbers must be greater than 0",
       });
     }
 

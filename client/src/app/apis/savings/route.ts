@@ -41,6 +41,28 @@ export async function POST(request: NextRequest) {
   }
 }
 
+export async function DELETE(request: NextRequest) {
+  try {
+    const UserId = request.headers.get("x-UserId");
+    const { SavingId } = await request.json();
+    // console.log("🚀 ~ DELETE ~ SavingId:", SavingId)
+    if (!SavingId) {
+      throw new HttpError("Saving Id is required")
+    }
+
+
+    if (!UserId || typeof UserId !== "string") {
+      throw new HttpError("User ID is required", 400);
+    }
+
+    const savings = await Saving.deleteSaving(UserId, SavingId);
+
+    return Response.json(savings);
+  } catch (error) {
+    return handleError(error);
+  }
+}
+
 // export async function PUT(req: Request) {
 // 	try {
 // 		const { UserId, updatedData } = await req.json();
